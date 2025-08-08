@@ -49,3 +49,63 @@
 - **Grundlag**: Komplet setup klar til næste fase
 - **Næste session**: Klar til OpenSocial installation eller GitHub setup
 - **Deployment**: Strategi planlagt, klar til implementering
+
+## Session 2 - Migration til DDEV og OpenSocial Installation (2025-08-08)
+
+### Problemer løst
+- **PHP Version**: Devilbox manglede PHP 8.2 support → Migreret til DDEV
+- **OpenSocial Installation**: Successful Composer installation med korrekt struktur
+- **Mappestruktur**: Rettet fra `html/` til `web/` som web root
+
+### Checkpoints/Milepæle
+- ✅ **00:30** - DDEV installeret via Homebrew 
+- ✅ **00:35** - OpenSocial projekt konfigureret til DDEV med PHP 8.2
+- ✅ **00:40** - Mappestruktur konflikter løst (html/web)
+- ✅ **00:45** - Composer.json rettet til at bruge `web/` i stedet for `html/`
+- ✅ **00:50** - Privat filsystem konfigureret for OpenSocial
+- ✅ **00:55** - OpenSocial installeret via browser (dog med CSS problemer)
+- ⚠️ **01:00** - DDEV container timeout problem ved genstart
+
+### Færdiggjorte opgaver
+1. **DDEV Migration**:
+   - Installeret DDEV som Devilbox erstatning  
+   - Konfigureret med PHP 8.2, MySQL 8.0, nginx
+   - URL: `https://opensocial.ddev.site`
+
+2. **OpenSocial Installation**:
+   - Composer installation gennemført succesfuldt
+   - Alle dependencies installeret i `/vendor/`
+   - Drupal core og OpenSocial moduler i `/web/`
+   - Privat filsystem konfigureret: `/web/sites/default/files/private`
+
+3. **Konfiguration fixes**:
+   - `composer.json` rettet fra `html/` til `web/` paths
+   - `settings.php` konfigureret med database og private files
+   - Autoloader regenereret med korrekte stier
+
+4. **GitHub Integration**:
+   - Alle ændringer committed til repository
+   - Projekt struktur opdateret på GitHub
+
+### Nuværende udfordringer
+- **DDEV Container Issue**: Timeout ved container start efter restart
+- **CSS Aggregation**: OpenSocial loadede uden stylesheets (typisk development problem)
+
+### Næste session prioriteter
+1. **Løse DDEV timeout problem**:
+   - Docker restart eller container rebuild
+   - Eventuelt memory allocation adjustment
+
+2. **Ren OpenSocial installation**:
+   - Database cleanup og Drush installation
+   - CSS aggregation deaktiveret for development
+   - Test af fuld funktionalitet
+
+3. **Live server forbindelse**:
+   - SSH test til 185.185.126.120
+   - Deployment workflow implementering
+
+### Status ved session 2 afslutning
+- **OpenSocial**: Installeret lokalt men DDEV container problemer
+- **Kode**: Alt committed til GitHub repository
+- **Næste**: `/recap` for at fortsætte DDEV troubleshooting og deployment
