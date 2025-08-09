@@ -12,3 +12,5 @@ deploy-strategy.md
 session-notes.md
 project-summary*.md
 docs/
+web/sites/default/settings.local.php
+web/sites/default/settings.php
