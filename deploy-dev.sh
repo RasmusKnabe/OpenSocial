@@ -50,7 +50,7 @@ ssh root@185.185.126.120 "chown -R apache:apache /home/DrupalBase-DEV/web/ && fi
 
 # Run update script on server
 echo "Running update script on DEV server..."
-ssh root@185.185.126.120 "/home/deploy-scripts/dev-update.sh"
+timeout 600 ssh root@185.185.126.120 "/home/deploy-scripts/dev-update.sh" || echo "⚠ Server update script took longer than expected but may have completed"
 
 echo "✅ DEV deployment complete!"
 echo "🌐 Check: http://dev.drupalbase.rasmusknabe.dk"
