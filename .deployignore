@@ -1,0 +1,12 @@
+.git/
+.ddev/
+node_modules/
+*.log
+web/sites/default/files/
+.DS_Store
+vendor/
+deploy-*.sh
+deploy-strategy.md
+session-notes.md
+project-summary*.md
+docs/
