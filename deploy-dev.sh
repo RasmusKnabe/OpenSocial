@@ -5,12 +5,21 @@ echo "Starting deployment to DEV environment..."
 
 # Export Drupal configuration locally
 echo "Exporting Drupal configuration..."
-ddev exec "drush config:export -y" || echo "Config export failed - continuing without"
+if ddev exec "drush config:export -y"; then
+    echo "✓ Configuration exported successfully"
+else
+    echo "⚠ Config export failed - checking if site is accessible..."
+    ddev exec "drush status" || echo "Site may not be accessible"
+fi
 
 # Commit changes to git
 echo "Committing changes to git..."
 git add .
-git commit -m "Config export for DEV deployment - $(date '+%Y-%m-%d %H:%M')" || echo "No changes to commit"
+if git commit -m "Config export for DEV deployment - $(date '+%Y-%m-%d %H:%M')"; then
+    echo "✓ Changes committed to git"
+else
+    echo "ℹ No changes to commit"
+fi
 
 # Create .deployignore if it doesn't exist
 if [ ! -f ".deployignore" ]; then
