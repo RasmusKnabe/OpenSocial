@@ -2,7 +2,9 @@
 .ddev/
 node_modules/
 *.log
-web/sites/default/files/
+web/sites/default/files/*
+!web/sites/default/files/sync/
+!web/sites/default/files/config_*/
 .DS_Store
 vendor/
 deploy-*.sh

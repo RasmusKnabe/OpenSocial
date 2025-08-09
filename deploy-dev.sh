@@ -35,6 +35,10 @@ fi
 echo "Deploying files to DEV server..."
 rsync -avz --exclude-from=.deployignore ./ root@185.185.126.120:/home/DrupalBase-DEV/
 
+# Fix file permissions after deployment
+echo "Fixing file permissions..."
+ssh root@185.185.126.120 "chown -R apache:apache /home/DrupalBase-DEV/web/ && find /home/DrupalBase-DEV/web -name '.htaccess' -exec chmod 644 {} \;"
+
 # Run update script on server
 echo "Running update script on DEV server..."
 ssh root@185.185.126.120 "/home/deploy-scripts/dev-update.sh"
