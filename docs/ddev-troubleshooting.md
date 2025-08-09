@@ -70,3 +70,43 @@ ddev restart
 - Eksluder projekt folder fra antivirus scanning
 - Brug SSD disk for Docker volumes
 - Luk unødvendige applikationer under development
+
+## Specific Issues Resolved
+
+### phpstatus Endpoint Missing
+**Problem**: Health check fails with "phpstatus:FAILED"
+**Solution**: Add phpstatus location to nginx configuration:
+
+```nginx
+# PHP-FPM status endpoint for DDEV health check
+location = /phpstatus {
+    access_log off;
+    fastcgi_pass unix:/run/php-fpm.sock;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    include fastcgi_params;
+}
+```
+
+### CSS Aggregation Issues with PHP 8.2
+**Problem**: CSS files don't load due to aggregation errors
+**Solutions**:
+1. Disable CSS/JS aggregation in database:
+```sql
+UPDATE config SET data = REPLACE(data, 's:10:"preprocess";b:1;', 's:10:"preprocess";b:0;') WHERE name = 'system.performance';
+```
+
+2. Clear CSS cache directory:
+```bash
+rm -rf web/sites/default/files/css/*
+rm -rf web/sites/default/files/js/*
+```
+
+### PHP 8.2 Deprecation Warnings
+**Problem**: Group module shows "static" deprecation warnings
+**Solution**: Add to settings.php:
+```php
+// Hide PHP 8.2 deprecation warnings in development
+if (getenv('IS_DDEV_PROJECT') == 'true') {
+  error_reporting(E_ALL & ~E_DEPRECATED);
+}
+```
