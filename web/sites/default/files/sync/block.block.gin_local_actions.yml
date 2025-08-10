@@ -1,0 +1,20 @@
+uuid: abdee65a-188b-4db9-a923-0e6e1f9bc7fb
+langcode: da
+status: true
+dependencies:
+  theme:
+    - gin
+_core:
+  default_config_hash: OQ9aJ-4qVwK1x00o9EOYK4eFDjQr_HLpbPiJaPSVZiQ
+id: gin_local_actions
+theme: gin
+region: content
+weight: -10
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primære administratorhandlinger'
+  label_display: '0'
+  provider: core
+visibility: {  }

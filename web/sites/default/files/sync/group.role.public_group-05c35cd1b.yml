@@ -1,0 +1,17 @@
+uuid: 42bffaa1-f3cc-4ca9-8ad6-5a913438258e
+langcode: da
+status: true
+dependencies:
+  config:
+    - group.type.public_group
+  enforced:
+    config:
+      - user.role.test
+id: public_group-05c35cd1b
+label: test
+weight: 6
+internal: true
+audience: outsider
+group_type: public_group
+permissions_ui: false
+permissions: {  }

@@ -1,0 +1,69 @@
+uuid: e6c5e913-6998-47b1-90e6-bad211127461
+langcode: da
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.group.teaser
+    - field.field.group.public_group.field_group_address
+    - field.field.group.public_group.field_group_description
+    - field.field.group.public_group.field_group_image
+    - field.field.group.public_group.field_group_location
+    - group.type.public_group
+    - image.style.social_x_large
+  module:
+    - address
+    - image
+_core:
+  default_config_hash: ng7bCDQ0ssXLs9NWc8-DR1SyYChY_2V0vh5mP2k4PcI
+id: group.public_group.teaser
+targetEntityType: group
+bundle: public_group
+mode: teaser
+content:
+  field_group_address:
+    type: address_plain
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_group_description:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_group_image:
+    type: image
+    label: hidden
+    settings:
+      image_link: content
+      image_style: social_x_large
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_group_location:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  label:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  changed: true
+  created: true
+  field_group_address: true
+  flag_mute_group_notifications: true
+  langcode: true
+  search_api_excerpt: true
+  uid: true

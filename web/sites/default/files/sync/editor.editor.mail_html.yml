@@ -1,0 +1,45 @@
+uuid: 0bbf9ff3-a930-4278-a63a-de8dd85c47da
+langcode: da
+status: true
+dependencies:
+  config:
+    - filter.format.mail_html
+  module:
+    - ckeditor5
+_core:
+  default_config_hash: M_6dmORHDyZEmILHnqQvIa-hqpP-7HQf429nA3sk7Zg
+format: mail_html
+editor: ckeditor5
+settings:
+  toolbar:
+    items:
+      - bold
+      - italic
+      - underline
+      - '|'
+      - link
+      - '|'
+      - alignment
+      - '|'
+  plugins:
+    ckeditor5_alignment:
+      enabled_alignments:
+        - center
+        - justify
+        - left
+        - right
+    editor_advanced_link_link:
+      enabled_attributes:
+        - class
+        - id
+        - rel
+        - target
+        - title
+image_upload:
+  status: false
+  scheme: public
+  directory: inline-images
+  max_size: ''
+  max_dimensions:
+    width: null
+    height: null

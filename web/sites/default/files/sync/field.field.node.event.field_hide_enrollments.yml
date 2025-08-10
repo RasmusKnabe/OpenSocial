@@ -1,0 +1,25 @@
+uuid: 10b55015-eb62-4176-ab34-704d728bc1a0
+langcode: da
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_hide_enrollments
+    - node.type.event
+_core:
+  default_config_hash: QpHmNBBqoRCcvUhTc8qhlX9JCDKZQ3liEU1pSD6y7iE
+id: node.event.field_hide_enrollments
+field_name: field_hide_enrollments
+entity_type: node
+bundle: event
+label: 'Hide enrollments'
+description: 'Hide the list of enrollees from other members'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: Tilsluttet
+  off_label: Afbrudt
+field_type: boolean

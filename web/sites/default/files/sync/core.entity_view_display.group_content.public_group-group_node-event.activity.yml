@@ -1,0 +1,27 @@
+uuid: 14e5c4d4-a2db-49eb-988d-313912d8be8f
+langcode: da
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.group_content.activity
+    - group.content_type.public_group-group_node-event
+_core:
+  default_config_hash: 39Zex1ocK4ZNoE0a59PuDjuX5Haf90srT6hnhtAoHec
+id: group_content.public_group-group_node-event.activity
+targetEntityType: group_content
+bundle: public_group-group_node-event
+mode: activity
+content:
+  entity_id:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: activity
+      link: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true
+  uid: true

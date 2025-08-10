@@ -1,0 +1,14 @@
+uuid: be273b05-9b2f-414f-8002-5dbd62a8b5ee
+langcode: da
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: UMNNU4dtTddtNeObycVUO4xMLfv-xeZMUz_tVwhYYCU
+id: open_group
+label: 'Open group'
+description: 'This is an open group. Users may join without approval and all content added in this group will be visible to all community members.'
+new_revision: false
+creator_membership: true
+creator_wizard: false
+creator_roles:
+  - open_group-group_manager

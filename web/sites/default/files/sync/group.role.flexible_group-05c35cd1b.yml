@@ -1,0 +1,17 @@
+uuid: 2c6515dc-a4fc-467a-b7c3-12c0c4918370
+langcode: da
+status: true
+dependencies:
+  config:
+    - group.type.flexible_group
+  enforced:
+    config:
+      - user.role.test
+id: flexible_group-05c35cd1b
+label: test
+weight: 6
+internal: true
+audience: outsider
+group_type: flexible_group
+permissions_ui: false
+permissions: {  }

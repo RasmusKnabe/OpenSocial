@@ -1,0 +1,38 @@
+uuid: 6105f0cb-3476-4a45-8acb-03dffe22127e
+langcode: da
+status: true
+dependencies:
+  module:
+    - node
+    - social_core
+    - system
+  theme:
+    - socialbase
+_core:
+  default_config_hash: RASaAwtefPjSmfl1q2YbJ--QoywUlOTn9Jw-dnCA21Y
+id: socialbase_pagetitleblock
+theme: socialbase
+region: hero
+weight: -15
+provider: null
+plugin: social_page_title_block
+settings:
+  id: social_page_title_block
+  label: 'Page title for nodes'
+  label_display: '0'
+  provider: social_core
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      event: event
+      page: page
+      topic: topic
+  request_path:
+    id: request_path
+    negate: true
+    context_mapping: {  }
+    pages: '/node/add/*'

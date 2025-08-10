@@ -1,0 +1,29 @@
+uuid: 6d7bf7ef-13fd-4a57-aa58-62840707733b
+langcode: da
+status: true
+dependencies:
+  config:
+    - field.storage.post.field_recipient_user
+    - social_post.post_type.photo
+_core:
+  default_config_hash: 8IFGLjEaFo82qwlAVk50rSjrY5D7WIs32dKEtsIse40
+id: post.photo.field_recipient_user
+field_name: field_recipient_user
+entity_type: post
+bundle: photo
+label: 'Recipient (user)'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+    filter:
+      type: _none
+    include_anonymous: false
+field_type: entity_reference

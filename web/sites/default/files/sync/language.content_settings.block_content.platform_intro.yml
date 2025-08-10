@@ -1,0 +1,20 @@
+uuid: dda1cc5e-a774-4c68-a52c-e60d0b5a6a87
+langcode: da
+status: true
+dependencies:
+  config:
+    - block_content.type.platform_intro
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: false
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+_core:
+  default_config_hash: gdXlyzKDZtuUIxrFRPF3ax7ieoS0fwEwy5FRR5ICS6U
+id: block_content.platform_intro
+target_entity_type_id: block_content
+target_bundle: platform_intro
+default_langcode: site_default
+language_alterable: false

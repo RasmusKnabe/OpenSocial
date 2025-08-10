@@ -1,0 +1,13 @@
+uuid: 5d94e18a-fd4a-460f-95da-8771718210ec
+langcode: da
+status: true
+dependencies:
+  module:
+    - social_post
+_core:
+  default_config_hash: '-aiJ-hpnasS25Ws9SU0W6Fn4yEaT3wMLYc4BHrIddrQ'
+id: post.featured
+label: Anbefalet
+description: ''
+targetEntityType: post
+cache: true

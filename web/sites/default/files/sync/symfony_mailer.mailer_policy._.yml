@@ -1,0 +1,16 @@
+uuid: c56200c6-6010-4323-923a-477a6f2a7e2a
+langcode: da
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: oUtf135g-IPzmggtfsOOX5ZINxbSe5Kno64BN2NUKn0
+id: _
+configuration:
+  mailer_url_to_absolute: {  }
+  mailer_wrap_and_convert:
+    plain: false
+    swiftmailer: false
+  email_theme:
+    theme: _default
+  mailer_inline_css_social: {  }
+  mail_html_text_format: {  }

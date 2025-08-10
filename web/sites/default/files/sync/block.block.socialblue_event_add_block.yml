@@ -1,0 +1,28 @@
+uuid: f63c66be-4b03-42ae-b797-65d41a0c8aa7
+langcode: da
+status: true
+dependencies:
+  module:
+    - social_event
+    - system
+  theme:
+    - socialblue
+_core:
+  default_config_hash: pOz-j9GCewa6cTdNbFqnt20dPt-rruPLZUcGw22Xc24
+id: socialblue_event_add_block
+theme: socialblue
+region: complementary_top
+weight: -99
+provider: null
+plugin: event_add_block
+settings:
+  id: event_add_block
+  label: 'Event add block'
+  label_display: '0'
+  provider: social_event
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: '/user/*/events'

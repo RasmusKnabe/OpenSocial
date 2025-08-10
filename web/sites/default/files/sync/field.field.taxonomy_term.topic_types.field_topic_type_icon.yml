@@ -1,0 +1,23 @@
+uuid: 5fa68b28-0206-4412-8c82-e9c8b37011a3
+langcode: da
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_topic_type_icon
+    - taxonomy.vocabulary.topic_types
+  module:
+    - options
+_core:
+  default_config_hash: 3MnCdkn5x3ocCoRr3fJYoYWeZyc85C6vLdqDwWVoj5g
+id: taxonomy_term.topic_types.field_topic_type_icon
+field_name: field_topic_type_icon
+entity_type: taxonomy_term
+bundle: topic_types
+label: Ikon
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: social_topic_default_value_function
+settings: {  }
+field_type: list_string

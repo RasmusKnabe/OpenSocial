@@ -1,0 +1,24 @@
+uuid: 99b25c3e-3c36-4557-aa75-45095b63a69b
+langcode: da
+status: true
+dependencies:
+  config:
+    - field.storage.group.field_group_description
+    - group.type.flexible_group
+  module:
+    - text
+_core:
+  default_config_hash: xYajg2KwDbvts2r7ExmC2kCIltULmCVA4UJa2he9b40
+id: group.flexible_group.field_group_description
+field_name: field_group_description
+entity_type: group
+bundle: flexible_group
+label: Beskrivelse
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

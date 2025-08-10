@@ -1,0 +1,13 @@
+uuid: 6c25ddae-6220-495b-a4ff-675b24f0cc47
+langcode: da
+status: true
+dependencies:
+  module:
+    - group
+_core:
+  default_config_hash: MPXuZOzK4bIORWlIavYvxuvIcrB35y7_WPzKKxjvtAg
+id: group.hero
+label: Hero
+description: ''
+targetEntityType: group
+cache: true

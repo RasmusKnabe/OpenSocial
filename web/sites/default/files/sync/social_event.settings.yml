@@ -1,0 +1,6 @@
+_core:
+  default_config_hash: S86C59iwLs551xFzprMesrggGuiKDk_1H6Ic0QLH2t8
+langcode: da
+enroll: {  }
+disable_event_enroll: false
+show_user_timezone: true

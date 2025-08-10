@@ -1,0 +1,25 @@
+uuid: 2b7481c8-37ce-4519-9b24-2ee525f4d701
+langcode: da
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_event_all_day
+    - node.type.event
+_core:
+  default_config_hash: K9rOFpT3TsXst-M_QfF7JMmPax7U6ZJfIso2iQeRdIM
+id: node.event.field_event_all_day
+field_name: field_event_all_day
+entity_type: node
+bundle: event
+label: 'All day'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: Tilsluttet
+  off_label: Afbrudt
+field_type: boolean

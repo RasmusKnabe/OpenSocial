@@ -1,0 +1,22 @@
+uuid: 459011b8-25c7-4cd9-b19d-1800314b20aa
+langcode: da
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - bootstrap
+_core:
+  default_config_hash: fNNLN48MSGSLiqwIFywCuxH2Dk_IxDbaP0kYhg_IPrg
+id: bootstrap_content
+theme: bootstrap
+region: content
+weight: 0
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Primært sideindhold'
+  label_display: '0'
+  provider: system
+visibility: {  }

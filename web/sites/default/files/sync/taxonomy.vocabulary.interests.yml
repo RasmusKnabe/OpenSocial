@@ -1,0 +1,10 @@
+uuid: a0852dd1-e7b5-4ca7-a8aa-5aaf0024d034
+langcode: da
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: 0oDKR41_MvDHVtKzJwxUv877N6E6vHBi5_yCMu7Vo8s
+name: Interesser
+vid: interests
+description: 'A users interests for their profile.'
+weight: 0

@@ -1,0 +1,28 @@
+uuid: c87bd164-d91d-4f3e-82a7-fd8b8863ec6e
+langcode: da
+status: true
+dependencies:
+  module:
+    - comment
+    - entity_access_by_field
+    - social_like
+    - social_post
+    - social_search
+    - system
+_core:
+  default_config_hash: j5zLMOdJBqC0bMvSdth5UebkprJB8g_2FXHqhfpJzow
+id: anonymous
+label: 'Anonym bruger'
+weight: 0
+is_admin: false
+permissions:
+  - 'access comments'
+  - 'access content'
+  - 'access content search'
+  - 'access group search'
+  - 'view like widget'
+  - 'view node.event.field_content_visibility:public content'
+  - 'view node.page.field_content_visibility:public content'
+  - 'view node.topic.field_content_visibility:public content'
+  - 'view public posts'
+  - 'view published post entities'

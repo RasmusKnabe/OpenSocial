@@ -1,0 +1,23 @@
+uuid: 891dab2a-3f04-45ba-8737-44f420a1c6da
+langcode: da
+status: true
+dependencies:
+  config:
+    - field.storage.message.field_message_context
+    - message.template.create_comment_group_node
+  module:
+    - options
+_core:
+  default_config_hash: sUX2_dxeeJimo4x6wVqZHLWYx4h84vzdoVGutY77_lc
+id: message.create_comment_group_node.field_message_context
+field_name: field_message_context
+entity_type: message
+bundle: create_comment_group_node
+label: Kontekst
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

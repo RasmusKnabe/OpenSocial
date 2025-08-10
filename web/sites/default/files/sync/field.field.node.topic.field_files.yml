@@ -1,0 +1,29 @@
+uuid: c22a2b1b-4c1d-46c1-8af2-a78b205e8bdc
+langcode: da
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_files
+    - node.type.topic
+  module:
+    - file
+_core:
+  default_config_hash: q96RRU5VDkBJxTvK5ABYUFFt-6b6xhxqi-RqNeRFzEM
+id: node.topic.field_files
+field_name: field_files
+entity_type: node
+bundle: topic
+label: Bilag
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'txt pdf doc docx xls xlsx ppt pptx csv jpg jpeg png gif'
+  max_filesize: ''
+  description_field: true
+field_type: file

@@ -1,0 +1,13 @@
+uuid: 53cf02ae-a03a-4bac-a531-24d8b161f4db
+langcode: da
+status: true
+dependencies:
+  module:
+    - group
+_core:
+  default_config_hash: o_IxY7_UvAbKVjxvwd8Dpga0PNHtREBzSSB_yXfI0vU
+id: group_content.activity
+label: Aktivitet
+description: ''
+targetEntityType: group_content
+cache: true

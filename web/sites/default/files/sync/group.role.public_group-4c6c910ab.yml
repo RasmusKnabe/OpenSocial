@@ -1,0 +1,17 @@
+uuid: 8cb2b00c-9770-4ad2-ad64-b7b950ca0353
+langcode: da
+status: true
+dependencies:
+  config:
+    - group.type.public_group
+  enforced:
+    config:
+      - user.role.member
+id: public_group-4c6c910ab
+label: Member
+weight: 5
+internal: true
+audience: outsider
+group_type: public_group
+permissions_ui: false
+permissions: {  }

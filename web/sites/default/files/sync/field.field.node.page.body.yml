@@ -1,0 +1,26 @@
+uuid: dde1c4e8-0120-473d-8e6a-6472c5dac22e
+langcode: da
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.page
+  module:
+    - text
+_core:
+  default_config_hash: nF2KoVoTd47pjQV2o66dYOkX4KFthCw3CkMKd2Hola8
+id: node.page.body
+field_name: body
+entity_type: node
+bundle: page
+label: Beskrivelse
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: false
+  required_summary: false
+  allowed_formats: {  }
+field_type: text_with_summary

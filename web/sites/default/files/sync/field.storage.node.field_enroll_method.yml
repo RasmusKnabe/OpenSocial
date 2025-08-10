@@ -1,0 +1,32 @@
+uuid: f224da13-6449-4d75-88bc-32f7d9819520
+langcode: da
+status: true
+dependencies:
+  module:
+    - node
+    - options
+_core:
+  default_config_hash: QXkros49ogj5NYLpqlN7zSdMlYUVI9dmejGnQu8565o
+id: node.field_enroll_method
+field_name: field_enroll_method
+entity_type: node
+type: list_integer
+settings:
+  allowed_values:
+    -
+      value: 1
+      label: 'Open to enroll'
+    -
+      value: 2
+      label: 'Request to enroll'
+    -
+      value: 3
+      label: Invite-only
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

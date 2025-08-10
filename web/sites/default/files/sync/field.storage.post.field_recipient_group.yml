@@ -1,0 +1,22 @@
+uuid: f94a8590-e72a-4ac9-adf2-cd8c0fc19a9f
+langcode: da
+status: true
+dependencies:
+  module:
+    - group
+    - social_post
+_core:
+  default_config_hash: tU_PYT-wu36DVEwlFn0mtZn-2qkQ0S1Xv24V6KHI-K4
+id: post.field_recipient_group
+field_name: field_recipient_group
+entity_type: post
+type: entity_reference
+settings:
+  target_type: group
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

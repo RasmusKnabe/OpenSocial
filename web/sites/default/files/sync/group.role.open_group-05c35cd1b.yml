@@ -1,0 +1,17 @@
+uuid: 261532fc-0075-40ae-a4fb-34687a366cae
+langcode: da
+status: true
+dependencies:
+  config:
+    - group.type.open_group
+  enforced:
+    config:
+      - user.role.test
+id: open_group-05c35cd1b
+label: test
+weight: 6
+internal: true
+audience: outsider
+group_type: open_group
+permissions_ui: false
+permissions: {  }

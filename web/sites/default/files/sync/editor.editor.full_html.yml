@@ -1,0 +1,142 @@
+uuid: 7a23ecff-036b-4ee4-952d-4fd0bfcf6707
+langcode: da
+status: true
+dependencies:
+  config:
+    - filter.format.full_html
+  module:
+    - ckeditor5
+_core:
+  default_config_hash: EFI4g4Tb4X9kthuKnvulBS6F65gDEbuIOwU0kAWvvZE
+format: full_html
+editor: ckeditor5
+settings:
+  toolbar:
+    items:
+      - bold
+      - italic
+      - strikethrough
+      - superscript
+      - subscript
+      - removeFormat
+      - '|'
+      - alignment
+      - '|'
+      - link
+      - '|'
+      - bulletedList
+      - numberedList
+      - '|'
+      - blockQuote
+      - drupalInsertImage
+      - insertTable
+      - horizontalLine
+      - '|'
+      - heading
+      - codeBlock
+      - style
+      - '|'
+      - sourceEditing
+  plugins:
+    ckeditor5_alignment:
+      enabled_alignments:
+        - center
+        - justify
+        - left
+        - right
+    ckeditor5_codeBlock:
+      languages:
+        -
+          label: 'Plain text'
+          language: plaintext
+        -
+          label: C
+          language: c
+        -
+          label: 'C#'
+          language: cs
+        -
+          label: C++
+          language: cpp
+        -
+          label: CSS
+          language: css
+        -
+          label: Diff
+          language: diff
+        -
+          label: HTML
+          language: html
+        -
+          label: Java
+          language: java
+        -
+          label: JavaScript
+          language: javascript
+        -
+          label: PHP
+          language: php
+        -
+          label: Python
+          language: python
+        -
+          label: Ruby
+          language: ruby
+        -
+          label: TypeScript
+          language: typescript
+        -
+          label: XML
+          language: xml
+    ckeditor5_heading:
+      enabled_headings:
+        - heading2
+        - heading3
+        - heading4
+        - heading5
+        - heading6
+    ckeditor5_imageResize:
+      allow_resize: true
+    ckeditor5_list:
+      properties:
+        reversed: true
+        startIndex: true
+      multiBlock: true
+    ckeditor5_sourceEditing:
+      allowed_tags: {  }
+    ckeditor5_style:
+      styles:
+        -
+          label: 'Default link'
+          element: '<a class="btn btn-default">'
+        -
+          label: 'Primary link'
+          element: '<a class="btn btn-primary">'
+        -
+          label: 'Accent link'
+          element: '<a class="btn btn-accent">'
+        -
+          label: 'Primary badge'
+          element: '<span class="badge badge-primary">'
+        -
+          label: 'Secondary badge'
+          element: '<span class="badge badge-secondary">'
+        -
+          label: 'Pill badge'
+          element: '<span class="badge badge--pill badge-default">'
+    editor_advanced_link_link:
+      enabled_attributes:
+        - aria-label
+        - class
+        - id
+        - rel
+        - target
+        - title
+image_upload:
+  status: true
+  scheme: private
+  directory: inline-images
+  max_size: ''
+  max_dimensions:
+    width: 0
+    height: 0

@@ -1,0 +1,28 @@
+uuid: 772e7ab4-3197-4584-a96f-f2595b76ad40
+langcode: da
+status: true
+dependencies:
+  module:
+    - social_group
+    - system
+  theme:
+    - socialbase
+_core:
+  default_config_hash: gVVKBv0XM0-cDJPAEM_KQ1SvA6lKbXbrRMkkcOWFd8k
+id: group_add_topic_block
+theme: socialbase
+region: complementary_top
+weight: -95
+provider: null
+plugin: group_add_topic_block
+settings:
+  id: group_add_topic_block
+  label: 'Group add topic block'
+  label_display: '0'
+  provider: social_group
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: '/group/*/topics'

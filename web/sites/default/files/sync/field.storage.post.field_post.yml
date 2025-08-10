@@ -1,0 +1,21 @@
+uuid: 32d586e1-7046-4f23-97fc-6efff5a39f0a
+langcode: da
+status: true
+dependencies:
+  module:
+    - social_post
+    - text
+_core:
+  default_config_hash: c54Ovci6FJDLI_-xmGiTv17AFGkTVZt6jutqTQvS8ns
+id: post.field_post
+field_name: field_post
+entity_type: post
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

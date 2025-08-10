@@ -1,0 +1,23 @@
+uuid: c5b99968-fc3e-4d1d-8b96-0ac18332c646
+langcode: da
+status: true
+dependencies:
+  config:
+    - field.storage.message.field_message_destination
+    - message.template.invited_to_join_group
+  module:
+    - options
+_core:
+  default_config_hash: FpqdqUoy8ofl2PFbyAlIWDKyySPWADeiPA95XPhy9as
+id: message.invited_to_join_group.field_message_destination
+field_name: field_message_destination
+entity_type: message
+bundle: invited_to_join_group
+label: field_message_destination
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

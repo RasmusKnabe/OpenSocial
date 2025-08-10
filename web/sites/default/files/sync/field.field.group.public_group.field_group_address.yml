@@ -1,0 +1,38 @@
+uuid: 8563f20b-81b3-45c5-b163-d38725f21f8e
+langcode: da
+status: true
+dependencies:
+  config:
+    - field.storage.group.field_group_address
+    - group.type.public_group
+  module:
+    - address
+_core:
+  default_config_hash: ghjm8x60p1hPl80OD7VxTqTDh_lDa8GCB9cV0tfshSY
+id: group.public_group.field_group_address
+field_name: field_group_address
+entity_type: group
+bundle: public_group
+label: Adresse
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  available_countries: {  }
+  langcode_override: ''
+  field_overrides: {  }
+  fields:
+    administrativeArea: administrativeArea
+    locality: locality
+    postalCode: postalCode
+    addressLine1: addressLine1
+    dependentLocality: '0'
+    sortingCode: '0'
+    addressLine2: '0'
+    organization: '0'
+    givenName: '0'
+    additionalName: '0'
+    familyName: '0'
+field_type: address

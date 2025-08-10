@@ -1,0 +1,32 @@
+uuid: b091b1b8-f4ef-4210-99b2-e27eea8ee340
+langcode: da
+status: true
+dependencies:
+  module:
+    - group
+    - options
+_core:
+  default_config_hash: rcofQoJONrsuzsXK450Frwl_cTiJTlSXux9JDA6UMPM
+id: group.field_group_allowed_visibility
+field_name: field_group_allowed_visibility
+entity_type: group
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: public
+      label: Public
+    -
+      value: community
+      label: Community
+    -
+      value: group
+      label: Gruppemedlemmer
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

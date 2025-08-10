@@ -1,0 +1,29 @@
+uuid: 84b7cba3-8f97-4612-9a14-cae1eb144b50
+langcode: da
+status: true
+dependencies:
+  config:
+    - field.storage.font.field_fonts
+  module:
+    - file
+    - social_font
+_core:
+  default_config_hash: 2vhz8GVbkTxZLgg0J74iT-ICdhzcMV8DLUL52PvvOJ0
+id: font.font.field_fonts
+field_name: field_fonts
+entity_type: font
+bundle: font
+label: Skrifttyper
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: fonts
+  file_extensions: 'eot svg ttf woff woff2'
+  max_filesize: ''
+  description_field: false
+field_type: file

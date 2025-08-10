@@ -1,0 +1,26 @@
+uuid: d5901c62-fc37-44f5-9cc0-7340ba5a3ea8
+langcode: da
+status: true
+dependencies:
+  config:
+    - group.content_type.public_group-group_node-event
+_core:
+  default_config_hash: JAHPSh1UwR9kNFOx3aWZ3_X5q2xZa5M0fDwtl178M2A
+id: group_content.public_group-group_node-event.default
+targetEntityType: group_content
+bundle: public_group-group_node-event
+mode: default
+content:
+  entity_id:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true
+  uid: true

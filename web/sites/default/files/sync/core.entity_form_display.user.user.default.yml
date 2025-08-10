@@ -1,0 +1,69 @@
+uuid: 3cc1e543-ea8d-49b1-983b-bf879bceb9e4
+langcode: da
+status: true
+dependencies:
+  module:
+    - field_group
+    - user
+third_party_settings:
+  field_group:
+    group_information:
+      children:
+        - account
+      label: 'Account information'
+      parent_name: ''
+      weight: 0
+      format_type: fieldset
+      format_settings:
+        label: 'Account information'
+        classes: ''
+        id: ''
+        required_fields: true
+    group_privacy:
+      children: {  }
+      label: Privacy
+      region: content
+      parent_name: ''
+      weight: 5
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        description: ''
+        required_fields: true
+    group_locale_settings:
+      children:
+        - timezone
+      label: Lokalitet
+      parent_name: ''
+      weight: 10
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        id: ''
+        description: ''
+        required_fields: true
+_core:
+  default_config_hash: 1hzRbEuOccan-jfyZLeGHnzTVwEf2LpwGmEOgor9yVs
+id: user.user.default
+targetEntityType: user
+bundle: user
+mode: default
+content:
+  account:
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  timezone:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  contact: true
+  groups: true
+  langcode: true
+  language: true
+  profile_profiles: true

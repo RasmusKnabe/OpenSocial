@@ -1,0 +1,14 @@
+uuid: 9d70a36c-c41c-469d-ac32-6be2a2be342a
+langcode: da
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: j5YPnaCyl47xAY39R53lJJnPGilTYlERuPS9ORto4D8
+label: 'Hero AN'
+id: hero_an
+description: 'Header image in the AN hero region'
+aspect_ratio: '1200:490'
+soft_limit_width: null
+soft_limit_height: null
+hard_limit_width: null
+hard_limit_height: null

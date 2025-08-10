@@ -1,0 +1,25 @@
+uuid: 69b776b1-484f-498d-aabf-85f3d0979f9c
+langcode: da
+status: true
+dependencies:
+  config:
+    - block_content.type.basic
+    - field.storage.block_content.field_basic_link
+  module:
+    - link
+_core:
+  default_config_hash: o02XWdMrOoXSWHUbw3rCJSgdmE-46-SkfkO8zrDkVzc
+id: block_content.basic.field_basic_link
+field_name: field_basic_link
+entity_type: block_content
+bundle: basic
+label: 'Read more link'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 1
+  link_type: 17
+field_type: link

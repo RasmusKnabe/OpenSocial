@@ -1,0 +1,17 @@
+uuid: 8d0fbf78-0e06-4164-9a9f-5aa441b13d39
+langcode: da
+status: true
+dependencies:
+  config:
+    - group.type.closed_group
+  enforced:
+    config:
+      - user.role.member
+id: closed_group-4c6c910ab
+label: Member
+weight: 5
+internal: true
+audience: outsider
+group_type: closed_group
+permissions_ui: false
+permissions: {  }

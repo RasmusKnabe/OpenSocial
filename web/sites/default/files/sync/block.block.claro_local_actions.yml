@@ -1,0 +1,20 @@
+uuid: 1b5cefe6-c0b1-4872-9cd3-902d9bd30219
+langcode: da
+status: true
+dependencies:
+  theme:
+    - claro
+_core:
+  default_config_hash: CdXfDmRgAvms7EQovxxWPdYi0GitxeRbVtScYK16ZH0
+id: claro_local_actions
+theme: claro
+region: content
+weight: -10
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primære administratorhandlinger'
+  label_display: '0'
+  provider: core
+visibility: {  }

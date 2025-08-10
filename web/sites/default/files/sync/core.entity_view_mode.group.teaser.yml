@@ -1,0 +1,13 @@
+uuid: 8db8034f-a92f-4d26-921b-8822fd204090
+langcode: da
+status: true
+dependencies:
+  module:
+    - group
+_core:
+  default_config_hash: YXlikPyGTT4Ozc42C7qAGkMEreAc7X4yfCg6B16lH2I
+id: group.teaser
+label: Smagsprøve
+description: ''
+targetEntityType: group
+cache: true

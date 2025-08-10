@@ -1,0 +1,13 @@
+uuid: c5b1fe6f-22c8-4907-bd3f-134d886d6013
+langcode: da
+status: true
+dependencies:
+  module:
+    - activity_creator
+_core:
+  default_config_hash: KrDci7naaCZKVlc4ImEOh59agcqx-yG7viJJK6owfIs
+id: activity.featured
+label: Anbefalet
+description: ''
+targetEntityType: activity
+cache: true

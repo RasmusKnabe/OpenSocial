@@ -1,0 +1,17 @@
+uuid: edf065e8-5085-4b31-bdf3-e161fcb7ed73
+langcode: da
+status: true
+dependencies:
+  config:
+    - group.type.flexible_group
+  enforced:
+    config:
+      - user.role.member
+id: flexible_group-4c6c910ab
+label: Member
+weight: 5
+internal: true
+audience: outsider
+group_type: flexible_group
+permissions_ui: false
+permissions: {  }

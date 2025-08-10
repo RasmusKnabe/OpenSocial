@@ -1,0 +1,22 @@
+uuid: ec085197-9f45-4423-ac79-24403d21e991
+langcode: da
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - socialblue
+_core:
+  default_config_hash: WQavb4yx5tp3JXnHNNH_B1-tp7ADTvyM3LDxGEuWbMw
+id: socialblue_content
+theme: socialblue
+region: content
+weight: -13
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Primært sideindhold'
+  label_display: '0'
+  provider: system
+visibility: {  }

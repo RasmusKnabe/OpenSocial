@@ -1,0 +1,14 @@
+uuid: 8d5f0372-ff09-4794-bbda-d0b188efaba0
+langcode: da
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: 9m1PzbVv0KU42lpItSg4BDxOoIRgt8qUSqcDAkoa3WE
+id: node__topic
+label: 'Content: Topic'
+tags:
+  title: '[current-page:title]'
+  og_description: '[node:body]'
+  og_image: '[node:field_topic_image:entity:url]'
+  og_site_name: '[site:name]'
+  og_title: '[current-page:title]'

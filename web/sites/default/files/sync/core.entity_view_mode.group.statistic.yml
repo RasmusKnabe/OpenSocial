@@ -1,0 +1,13 @@
+uuid: 73e72709-78c1-45e0-8d46-18ae649c0fa6
+langcode: da
+status: true
+dependencies:
+  module:
+    - group
+_core:
+  default_config_hash: IkZplQk_mMWNaQjW0ESRtJgoCM3Do0KgQ9D0SQuZCK4
+id: group.statistic
+label: Statistic
+description: ''
+targetEntityType: group
+cache: true

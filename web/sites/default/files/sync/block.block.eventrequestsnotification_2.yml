@@ -1,0 +1,22 @@
+uuid: 4cb11505-861b-40b3-80e8-74120bfb6c9b
+langcode: da
+status: true
+dependencies:
+  module:
+    - social_event
+  theme:
+    - socialblue
+_core:
+  default_config_hash: '-r3I1uYwwGgB1BXWU4J2NqaWRTxcWf0TLNyFRDFdYAk'
+id: eventrequestsnotification_2
+theme: socialblue
+region: content
+weight: -29
+provider: null
+plugin: event_requests_notification
+settings:
+  id: event_requests_notification
+  label: 'Event requests notification'
+  label_display: '0'
+  provider: social_event
+visibility: {  }

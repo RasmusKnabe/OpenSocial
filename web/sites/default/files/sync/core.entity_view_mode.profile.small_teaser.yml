@@ -1,0 +1,13 @@
+uuid: 95132278-8535-48a6-8592-e5987831c836
+langcode: da
+status: true
+dependencies:
+  module:
+    - profile
+_core:
+  default_config_hash: 1pGJP3tKJXIdHu3fWL9HU-hTPEXcKpqxsWadT9Wdh8s
+id: profile.small_teaser
+label: 'Small Teaser'
+description: ''
+targetEntityType: profile
+cache: true

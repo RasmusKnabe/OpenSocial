@@ -1,0 +1,25 @@
+uuid: bef7b1bc-c903-435a-9d49-4cd7e8e0e48c
+langcode: da
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - socialblue
+_core:
+  default_config_hash: nUdhCVU-Y9wjS1Ei29Kt1VN1rLZc6dn0nJQSHJv2Vg8
+id: socialblue_sitebranding
+theme: socialblue
+region: header
+weight: 3
+provider: null
+plugin: system_branding_block
+settings:
+  id: system_branding_block
+  label: 'Site branding'
+  label_display: '0'
+  provider: system
+  use_site_logo: true
+  use_site_name: true
+  use_site_slogan: false
+visibility: {  }

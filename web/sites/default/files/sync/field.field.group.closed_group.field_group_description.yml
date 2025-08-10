@@ -1,0 +1,24 @@
+uuid: 7390be2e-44f4-4e49-b144-458f9f15d1ec
+langcode: da
+status: true
+dependencies:
+  config:
+    - field.storage.group.field_group_description
+    - group.type.closed_group
+  module:
+    - text
+_core:
+  default_config_hash: xDNbbtwO2Cx6YOYqQTNvJ62wm1DB2NC8k7u9k2ZMpYU
+id: group.closed_group.field_group_description
+field_name: field_group_description
+entity_type: group
+bundle: closed_group
+label: Beskrivelse
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

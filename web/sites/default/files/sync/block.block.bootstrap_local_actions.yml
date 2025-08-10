@@ -1,0 +1,20 @@
+uuid: 625ab0f5-3320-4c26-b0dc-1ed321ba2370
+langcode: da
+status: true
+dependencies:
+  theme:
+    - bootstrap
+_core:
+  default_config_hash: ffxthelqQF8xcr4GTG4HlaNNsluiHftN0pujmQpW0bQ
+id: bootstrap_local_actions
+theme: bootstrap
+region: header
+weight: 20
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primære administratorhandlinger'
+  label_display: '0'
+  provider: core
+visibility: {  }

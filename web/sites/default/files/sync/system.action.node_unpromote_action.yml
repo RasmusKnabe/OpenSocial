@@ -1,0 +1,13 @@
+uuid: ddea0282-7d12-4ee2-bdd1-d1bf7c0e0328
+langcode: da
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: JBptjnfuOMtsdKygklXxoOgeOCTMtQxlkymjnnj-cC0
+id: node_unpromote_action
+label: 'Fjern indhold fra forsiden'
+type: node
+plugin: node_unpromote_action
+configuration: {  }

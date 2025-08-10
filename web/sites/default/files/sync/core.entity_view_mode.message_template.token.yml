@@ -1,0 +1,11 @@
+uuid: c3bccd16-60fb-42c5-9860-f9f756fbd079
+langcode: da
+status: true
+dependencies:
+  module:
+    - message
+id: message_template.token
+label: Token
+description: ''
+targetEntityType: message_template
+cache: true

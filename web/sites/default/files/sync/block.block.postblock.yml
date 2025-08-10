@@ -1,0 +1,28 @@
+uuid: a7282c2c-1c8d-418d-aba3-fb547aa31e93
+langcode: da
+status: true
+dependencies:
+  module:
+    - social_post
+    - system
+  theme:
+    - socialbase
+_core:
+  default_config_hash: P48P5vAKh5cdHENgfiw66njirMIylYzdKUN2jOQg00o
+id: postblock
+theme: socialbase
+region: hidden
+weight: -7
+provider: null
+plugin: post_block
+settings:
+  id: post_block
+  label: 'Post block'
+  label_display: '0'
+  provider: social_post
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /stream

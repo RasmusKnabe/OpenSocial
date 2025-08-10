@@ -1,0 +1,36 @@
+uuid: b74099c9-556d-4b42-8267-4dde6c06dbb3
+langcode: da
+status: true
+dependencies:
+  config:
+    - filter.format.full_html
+  module:
+    - activity_logger
+third_party_settings:
+  activity_logger:
+    activity_bundle_entities:
+      node-topic: node-topic
+    activity_action: create_entitiy_action
+    activity_context: community_activity_context
+    activity_destinations:
+      notifications: notifications
+      stream_explore: stream_explore
+      stream_group: stream_group
+      stream_home: stream_home
+      stream_profile: stream_profile
+    activity_create_direct: false
+    email_subject: ''
+_core:
+  default_config_hash: 9xRcV70SiH4b491gj-0afyYsIl0fTYjeswzAHfKnTk0
+template: create_topic_community
+label: 'Create topic'
+description: 'A user created a topic in the community'
+text:
+  -
+    value: '<p><a href="[message:author:url:absolute]">[message:author:display-name]</a> created a topic</p>'
+    format: full_html
+settings:
+  'token options':
+    clear: false
+    'token replace': true
+  purge_methods: {  }

@@ -1,0 +1,11 @@
+uuid: 9dd64919-44a3-4fba-92cf-fac1399204c0
+langcode: da
+status: true
+dependencies:
+  module:
+    - profile
+id: profile.token
+label: Token
+description: ''
+targetEntityType: profile
+cache: true

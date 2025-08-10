@@ -1,0 +1,17 @@
+uuid: 9ae16318-8418-4441-ac5f-7de02b30540a
+langcode: da
+status: true
+dependencies:
+  config:
+    - group.type.closed_group
+  enforced:
+    config:
+      - user.role.test
+id: closed_group-05c35cd1b
+label: test
+weight: 6
+internal: true
+audience: outsider
+group_type: closed_group
+permissions_ui: false
+permissions: {  }

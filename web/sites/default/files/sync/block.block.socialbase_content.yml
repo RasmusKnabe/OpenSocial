@@ -1,0 +1,22 @@
+uuid: d1df331b-c135-41bc-acd6-fc348b744677
+langcode: da
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - socialbase
+_core:
+  default_config_hash: cJBzSe8tsKTEkQ3KWM0q1o2ONKVqoKQ6m2TSCYQpIsw
+id: socialbase_content
+theme: socialbase
+region: content
+weight: -13
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Primært sideindhold'
+  label_display: '0'
+  provider: system
+visibility: {  }

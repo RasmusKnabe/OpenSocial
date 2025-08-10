@@ -1,0 +1,28 @@
+uuid: bc47f2c0-e14b-4845-a83d-fbeefba3ee57
+langcode: da
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_event_send_confirmation
+    - node.type.event
+  enforced:
+    module:
+      - social_event
+_core:
+  default_config_hash: qrAhuFURHu8GlOO3gq10T1ziLKyJiNsF8prqTnTPinQ
+id: node.event.field_event_send_confirmation
+field_name: field_event_send_confirmation
+entity_type: node
+bundle: event
+label: 'Send confirmation after standalone enrolment'
+description: 'Send a confirmation email when a member enrolls in an event'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: Tilsluttet
+  off_label: Afbrudt
+field_type: boolean
