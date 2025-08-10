@@ -1,0 +1,17 @@
+uuid: 36bcf61c-dec1-4285-a19e-1b679fd8cf0b
+langcode: da
+status: true
+dependencies:
+  config:
+    - group.type.flexible_group
+  enforced:
+    config:
+      - user.role.skal_slettes
+id: flexible_group-ce65f13ab
+label: 'Skal slettes'
+weight: 7
+internal: true
+audience: outsider
+group_type: flexible_group
+permissions_ui: false
+permissions: {  }

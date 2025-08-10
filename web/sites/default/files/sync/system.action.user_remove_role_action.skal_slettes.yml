@@ -1,0 +1,14 @@
+uuid: 96b9a8b0-7768-4a2b-b9bc-3ad3e7cbad76
+langcode: da
+status: true
+dependencies:
+  config:
+    - user.role.skal_slettes
+  module:
+    - user
+id: user_remove_role_action.skal_slettes
+label: 'Remove the Skal slettes role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: skal_slettes
