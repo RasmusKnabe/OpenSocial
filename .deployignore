@@ -1,16 +1,31 @@
+# Git and development files
 .git/
 .ddev/
 node_modules/
 *.log
-web/sites/default/files/*
-!web/sites/default/files/sync/
-!web/sites/default/files/config_*/
 .DS_Store
 vendor/
+
+# Deployment scripts and documentation  
 deploy-*.sh
 deploy-strategy.md
 session-notes.md
 project-summary*.md
 docs/
+
+# Server-specific settings (preserve on server)
 web/sites/default/settings.local.php
 web/sites/default/settings.php
+
+# User content and uploads (DO NOT sync to environments)
+web/sites/default/files/private/
+web/sites/default/files/styles/
+web/sites/default/files/php/
+web/sites/default/files/js/
+web/sites/default/files/css/
+web/sites/default/files/languages/
+
+# Allow specific directories for deployment
+!web/sites/default/files/sync/
+!web/sites/default/files/config_*/
+!web/sites/default/files/assets/

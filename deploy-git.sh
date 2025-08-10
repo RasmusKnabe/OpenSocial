@@ -5,12 +5,13 @@ echo "🚀 Starting Git-based deployment to DEV environment..."
 
 # 1. Export configuration locally
 echo "📦 Exporting Drupal configuration..."
-ddev drush config:export -y
+ddev drush cache:clear drush
+ddev drush config:export -y --diff
 echo "✓ Configuration exported"
 
 # 2. Commit and push changes
 echo "📝 Committing configuration changes..."
-git add .
+git add -f web/sites/default/files/sync/
 if git commit -m "Config export for deployment - $(date '+%Y-%m-%d %H:%M')"; then
     echo "✓ Changes committed"
 else
@@ -42,10 +43,18 @@ ssh root@185.185.126.120 "
     echo '🧹 Clearing caches...'
     vendor/bin/drush cache:rebuild
     
-    # Fix permissions
+    # Fix permissions (but preserve user content)
     echo '🔒 Fixing file permissions...'
     chown -R apache:apache web/
     find web -name '.htaccess' -exec chmod 644 {} \;
+    
+    # Ensure assets directory has correct permissions
+    if [ -d 'web/sites/default/files/assets' ]; then
+        echo '🎨 Setting asset permissions...'
+        chown -R apache:apache web/sites/default/files/assets/
+        find web/sites/default/files/assets -type d -exec chmod 755 {} \;
+        find web/sites/default/files/assets -type f -exec chmod 644 {} \;
+    fi
     
     echo '✅ DEV deployment completed successfully!'
 "
