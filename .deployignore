@@ -16,6 +16,7 @@ docs/
 # Server-specific settings (preserve on server)
 web/sites/default/settings.local.php
 web/sites/default/settings.php
+web/sites/default/settings.ddev.php
 
 # User content and uploads (DO NOT sync to environments)
 web/sites/default/files/private/

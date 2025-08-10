@@ -56,6 +56,15 @@ ssh root@185.185.126.120 "
         find web/sites/default/files/assets -type f -exec chmod 644 {} \;
     fi
     
+    # Ensure settings.local.php is included in settings.php
+    echo '⚙️ Verifying database settings...'
+    if grep -q '# if (file_exists.*settings.local.php' web/sites/default/settings.php; then
+        echo 'Enabling settings.local.php include...'
+        sed -i 's/^# if (file_exists/if (file_exists/' web/sites/default/settings.php
+        sed -i 's/^#   include/  include/' web/sites/default/settings.php  
+        sed -i 's/^# }/}/' web/sites/default/settings.php
+    fi
+    
     echo '✅ DEV deployment completed successfully!'
 "
 
