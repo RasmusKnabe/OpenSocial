@@ -1,0 +1,14 @@
+_core:
+  default_config_hash: l58O_yEXSo-SeJi19LXdzTU1tNJG3lmnIhCitRkM1tk
+langcode: da
+uuid: 2c8a80e2-c552-4685-88a4-34ed5e012943
+name: 'OpenSocial DEPLOYMENT TEST'
+mail: rasmusknabe@gmail.com
+slogan: ''
+page:
+  403: ''
+  404: ''
+  front: /stream
+admin_compact_mode: false
+weight_select_max: 100
+default_langcode: da
