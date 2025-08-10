@@ -1,0 +1,9 @@
+uuid: 65285be2-af0d-48d9-beaf-ae04f5709702
+langcode: da
+status: true
+dependencies: {  }
+id: moderator
+label: Moderator
+weight: 6
+is_admin: null
+permissions: {  }

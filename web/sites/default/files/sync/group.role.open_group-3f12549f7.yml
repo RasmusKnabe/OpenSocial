@@ -1,0 +1,17 @@
+uuid: 22d2a1b4-33d2-4b27-8325-148f8fd7526d
+langcode: da
+status: true
+dependencies:
+  config:
+    - group.type.open_group
+  enforced:
+    config:
+      - user.role.moderator
+id: open_group-3f12549f7
+label: Moderator
+weight: 6
+internal: true
+audience: outsider
+group_type: open_group
+permissions_ui: false
+permissions: {  }

@@ -1,0 +1,17 @@
+uuid: e06cac51-c92d-4057-b645-b28615d302c8
+langcode: da
+status: true
+dependencies:
+  config:
+    - group.type.closed_group
+  enforced:
+    config:
+      - user.role.moderator
+id: closed_group-3f12549f7
+label: Moderator
+weight: 6
+internal: true
+audience: outsider
+group_type: closed_group
+permissions_ui: false
+permissions: {  }

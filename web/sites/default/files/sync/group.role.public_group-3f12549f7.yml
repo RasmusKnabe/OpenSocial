@@ -1,0 +1,17 @@
+uuid: 3049a4ad-4783-414e-ba69-b79edece14e3
+langcode: da
+status: true
+dependencies:
+  config:
+    - group.type.public_group
+  enforced:
+    config:
+      - user.role.moderator
+id: public_group-3f12549f7
+label: Moderator
+weight: 6
+internal: true
+audience: outsider
+group_type: public_group
+permissions_ui: false
+permissions: {  }
