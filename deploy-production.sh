@@ -46,8 +46,14 @@ echo "💾 Creating production database backup..."
 ssh root@185.185.126.120 "
     cd /home/DrupalBase-PROD
     echo '💾 Backing up production database...'
-    vendor/bin/drush sql:dump --gzip --result-file=../backups/prod-backup-\$(date +%Y%m%d-%H%M%S).sql || echo 'Database backup completed'
-    echo '✓ Production database backed up'
+    # Ensure backup directory exists
+    mkdir -p ../backups
+    # Create database backup with mysqldump (more reliable)
+    mysqldump -u root -p'83r6x3k\\\$87s{zBr)' 'DrupalBase-PROD' | gzip > ../backups/prod-backup-\$(date +%Y%m%d-%H%M%S).sql.gz
+    echo '✓ Production database backed up successfully'
+    
+    # Keep only last 5 backups
+    cd ../backups && ls -t prod-backup-*.sql.gz | tail -n +6 | xargs rm -f 2>/dev/null || echo 'Backup cleanup completed'
 "
 
 # 4. Deploy on production server with extra safety measures
@@ -68,13 +74,32 @@ ssh root@185.185.126.120 "
     echo '📦 Installing composer dependencies...'
     COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader --no-interaction
     
-    # Import configuration with rollback capability
+    # Import configuration with improved rollback capability
     echo '⚙️ Importing configuration...'
     if vendor/bin/drush config:import -y; then
         echo '✅ Configuration import successful'
     else
         echo '❌ Configuration import failed - rolling back'
-        git reset --hard HEAD~1
+        echo '🔄 Restoring from backup instead of git reset...'
+        
+        # Import backup database instead of git reset
+        if [ -f ../backups/prod-backup-*.sql.gz ]; then
+            BACKUP_FILE=\$(ls -t ../backups/prod-backup-*.sql.gz | head -1)
+            echo \"Restoring database from: \$BACKUP_FILE\"
+            zcat \"\$BACKUP_FILE\" | mysql -u root -p'83r6x3k\\\$87s{zBr)' 'DrupalBase-PROD'
+        else
+            echo '⚠️ No backup found - performing manual rollback'
+            vendor/bin/drush config:import -y --partial || echo 'Partial config import attempted'
+        fi
+        
+        # Ensure settings.local.php is still included after rollback
+        if grep -q '# if (file_exists.*settings.local.php' web/sites/default/settings.php; then
+            echo 'Re-enabling settings.local.php include...'
+            sed -i 's/^# if (file_exists/if (file_exists/' web/sites/default/settings.php
+            sed -i 's/^#   include/  include/' web/sites/default/settings.php  
+            sed -i 's/^# }/}/' web/sites/default/settings.php
+        fi
+        
         vendor/bin/drush cache:rebuild
         vendor/bin/drush state:set system.maintenance_mode 0
         echo '🔄 Rollback completed - site restored'
