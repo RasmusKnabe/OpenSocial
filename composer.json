@@ -25,7 +25,8 @@
         "drupal-scaffold": {
             "locations": {
                 "web-root": "web/"
-            }
+            },
+            "allowed-packages": ["drupal/claude_code"]
         },
         "installer-types": [
             "bower-asset",
@@ -69,5 +70,8 @@
             "oomphinc/composer-installers-extender": true,
             "zaporylie/composer-drupal-optimizations": true
         }
+    },
+    "require-dev": {
+        "drupal/claude_code": "^1.0"
     }
 }
