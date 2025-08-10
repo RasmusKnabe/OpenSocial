@@ -1,9 +1,0 @@
-uuid: 805bda04-abf6-498e-962c-74ebe1222829
-langcode: da
-status: true
-dependencies: {  }
-id: skal_slettes
-label: 'Skal slettes'
-weight: 7
-is_admin: null
-permissions: {  }
