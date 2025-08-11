@@ -1,0 +1,39 @@
+entity.member_id.collection:
+  path: '/admin/people/member-ids'
+  defaults:
+    _entity_list: 'member_id'
+    _title: 'Member IDs'
+  requirements:
+    _permission: 'administer member ids'
+
+entity.member_id.add_form:
+  path: '/admin/people/member-ids/add'
+  defaults:
+    _entity_form: 'member_id.add'
+    _title: 'Add Member ID'
+  requirements:
+    _permission: 'administer member ids'
+
+entity.member_id.canonical:
+  path: '/admin/people/member-ids/{member_id}'
+  defaults:
+    _entity_view: 'member_id.full'
+    _title: 'Member ID'
+  requirements:
+    _permission: 'administer member ids'
+
+entity.member_id.edit_form:
+  path: '/admin/people/member-ids/{member_id}/edit'
+  defaults:
+    _entity_form: 'member_id.edit'
+    _title: 'Edit Member ID'
+  requirements:
+    _permission: 'administer member ids'
+
+entity.member_id.delete_form:
+  path: '/admin/people/member-ids/{member_id}/delete'
+  defaults:
+    _entity_form: 'member_id.delete'
+    _title: 'Delete Member ID'
+  requirements:
+    _permission: 'administer member ids'

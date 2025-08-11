@@ -1,0 +1,13 @@
+social_membership.admin:
+  title: 'Memberships'
+  description: 'Manage memberships'
+  parent: system.admin_structure
+  route_name: entity.membership.collection
+  weight: 11
+
+social_membership.admin_add:
+  title: 'Add Membership'
+  description: 'Add a new membership'
+  parent: social_membership.admin
+  route_name: entity.membership.add_form
+  weight: 0

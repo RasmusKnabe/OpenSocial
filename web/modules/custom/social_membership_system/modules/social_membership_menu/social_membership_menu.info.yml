@@ -1,0 +1,8 @@
+name: 'Social Membership Menu'
+description: 'Adds membership link to user account dropdown menu'
+type: module
+core_version_requirement: ^8 || ^9 || ^10
+package: Custom
+dependencies:
+  - social_user
+  - social_membership_system

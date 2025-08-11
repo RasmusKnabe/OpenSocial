@@ -1,0 +1,9 @@
+name: 'Social Membership Control'
+description: 'Controls access to OpenSocial features based on Member role'
+type: module
+core_version_requirement: ^8 || ^9 || ^10
+package: Custom
+
+dependencies:
+  - social_user
+  - user

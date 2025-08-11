@@ -1,0 +1,18 @@
+social_membership_system.user_overview:
+  path: '/user/membership'
+  defaults:
+    _controller: '\Drupal\social_membership_system\Controller\UserMembershipController::overview'
+    _title: 'My Membership'
+  requirements:
+    _permission: 'access content'
+    _user_is_logged_in: 'TRUE'
+
+social_membership_system.user_renewal:
+  path: '/user/membership/renew'
+  defaults:
+    _controller: '\Drupal\social_membership_system\Controller\UserMembershipController::renewMembership'
+    _title: 'Renew Membership'
+  requirements:
+    _permission: 'access content'
+    _user_is_logged_in: 'TRUE'
+    _csrf_token: 'TRUE'

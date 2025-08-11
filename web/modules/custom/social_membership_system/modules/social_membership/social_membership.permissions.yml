@@ -1,0 +1,8 @@
+administer memberships:
+  title: 'Administer memberships'
+  description: 'Create, edit, and delete memberships'
+  restrict access: true
+
+view memberships:
+  title: 'View memberships'
+  description: 'View membership information'

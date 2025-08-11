@@ -1,0 +1,84 @@
+<?php
+
+/**
+ * @file
+ * Social Membership Control module.
+ * 
+ * Controls access to OpenSocial community features based on Member role.
+ * Only users with "Member" role get "verified" role and access to platform.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\user\UserInterface;
+
+/**
+ * Implements hook_module_implements_alter().
+ * 
+ * Ensure our hook_user_insert() runs AFTER social_user's implementation.
+ */
+function social_membership_module_implements_alter(&$implementations, $hook) {
+  if ($hook === 'user_insert') {
+    // Move our implementation to run last.
+    if (isset($implementations['social_membership'])) {
+      $group = $implementations['social_membership'];
+      unset($implementations['social_membership']);
+      $implementations['social_membership'] = $group;
+    }
+  }
+}
+
+/**
+ * Implements hook_user_insert().
+ * 
+ * Override OpenSocial's automatic verified role assignment.
+ * Only assign verified role if user has Member role.
+ */
+function social_membership_user_insert(UserInterface $user): void {
+  // Remove verified role that might have been added by social_user.
+  if ($user->hasRole('verified')) {
+    $user->removeRole('verified');
+  }
+  
+  // Only add verified role if user has Member role.
+  if ($user->hasRole('member')) {
+    $user->addRole('verified');
+  }
+  
+  // Save changes if we modified roles.
+  if ($user->hasRole('member') || !$user->hasRole('verified')) {
+    $user->save();
+  }
+}
+
+/**
+ * Implements hook_user_update().
+ * 
+ * When Member role is added/removed, update verified role accordingly.
+ */
+function social_membership_user_update(UserInterface $user): void {
+  $original_user = $user->original ?? NULL;
+  if (!$original_user) {
+    return;
+  }
+  
+  $had_member = $original_user->hasRole('member');
+  $has_member = $user->hasRole('member');
+  
+  // Member role was added - grant verified role.
+  if (!$had_member && $has_member) {
+    if (!$user->hasRole('verified')) {
+      $user->addRole('verified');
+      $user->save();
+      \Drupal::messenger()->addStatus(t('User granted access to community features.'));
+    }
+  }
+  
+  // Member role was removed - revoke verified role.
+  if ($had_member && !$has_member) {
+    if ($user->hasRole('verified')) {
+      $user->removeRole('verified');
+      $user->save();
+      \Drupal::messenger()->addWarning(t('User access to community features has been revoked.'));
+    }
+  }
+}

@@ -1,0 +1,9 @@
+name: 'Social Membership'
+description: 'Manages membership periods and subscriptions'
+type: module
+core_version_requirement: ^8 || ^9 || ^10
+package: Custom
+dependencies:
+  - datetime
+  - social_membership_system
+  - social_member_id

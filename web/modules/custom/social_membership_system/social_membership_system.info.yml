@@ -1,0 +1,8 @@
+name: 'Social Membership System'
+description: 'Complete membership management system for OpenSocial'
+type: module
+core_version_requirement: ^8 || ^9 || ^10
+package: Custom
+dependencies:
+  - user
+  - datetime

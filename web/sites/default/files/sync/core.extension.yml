@@ -108,6 +108,7 @@ module:
   social_lets_connect: 0
   social_lets_connect_contact: 0
   social_like: 0
+  social_membership: 0
   social_mentions: 0
   social_node: 0
   social_page: 0

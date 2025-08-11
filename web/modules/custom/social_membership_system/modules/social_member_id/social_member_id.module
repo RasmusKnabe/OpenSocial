@@ -1,0 +1,99 @@
+<?php
+
+/**
+ * @file
+ * Social Member ID module hooks and functions.
+ */
+
+use Drupal\Core\Link;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_alter().
+ */
+function social_member_id_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Auto-fill member ID field for new MemberID entities
+  if ($form_id === 'member_id_add_form') {
+    // Generate next member ID
+    $next_member_id = _social_member_id_get_next_member_id();
+    
+    // Set as default value
+    if (!empty($form['member_id']['widget'][0]['value'])) {
+      $form['member_id']['widget'][0]['value']['#default_value'] = $next_member_id;
+    }
+  }
+}
+
+/**
+ * Helper function to get the next member ID.
+ */
+function _social_member_id_get_next_member_id() {
+  $storage = \Drupal::entityTypeManager()->getStorage('member_id');
+  $current_year = date('Y');
+  
+  // Find the highest member ID for the current year
+  $query = $storage->getQuery()
+    ->condition('member_id', $current_year . '%', 'LIKE')
+    ->sort('member_id', 'DESC')
+    ->range(0, 1)
+    ->accessCheck(FALSE);
+  
+  $result = $query->execute();
+  
+  if (empty($result)) {
+    // First member of the year
+    return $current_year . '001';
+  }
+  
+  // Get the last member ID
+  $last_id = reset($result);
+  $last_entity = $storage->load($last_id);
+  $last_member_id = $last_entity->getMemberID();
+  
+  // Extract the sequence number and increment
+  if (preg_match('/^(\d{4})(\d{3})$/', $last_member_id, $matches)) {
+    $year = $matches[1];
+    $sequence = (int) $matches[2];
+    
+    // If it's from the current year, increment the sequence
+    if ($year == $current_year) {
+      $next_sequence = $sequence + 1;
+      return $current_year . str_pad($next_sequence, 3, '0', STR_PAD_LEFT);
+    }
+  }
+  
+  // Fallback: First member of the current year
+  return $current_year . '001';
+}
+
+/**
+ * Implements hook_social_user_account_header_account_links().
+ */
+function social_member_id_social_user_account_header_account_links(array $context) {
+  \Drupal::logger('social_member_id')->info('Hook social_user_account_header_account_links called');
+  
+  // We require a user for this link.
+  if (empty($context['user']) || !($context['user'] instanceof AccountInterface)) {
+    \Drupal::logger('social_member_id')->info('No user in context');
+    return [];
+  }
+
+  \Drupal::logger('social_member_id')->info('Adding membership link for user @uid', ['@uid' => $context['user']->id()]);
+
+  $link = Link::createFromRoute(
+    (new TranslatableMarkup('My Membership')),
+    'social_membership_system.user_overview'
+  );
+
+  return [
+    'my_membership' => [
+      '#type' => 'link',
+      '#attributes' => [
+        'title' => new TranslatableMarkup('View your membership information'),
+      ],
+      '#weight' => 350,
+    ] + $link->toRenderable(),
+  ];
+}

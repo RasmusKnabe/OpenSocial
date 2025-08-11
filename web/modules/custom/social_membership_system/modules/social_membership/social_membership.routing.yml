@@ -1,0 +1,39 @@
+entity.membership.collection:
+  path: '/admin/people/memberships'
+  defaults:
+    _entity_list: 'membership'
+    _title: 'Memberships'
+  requirements:
+    _permission: 'administer memberships'
+
+entity.membership.add_form:
+  path: '/admin/people/memberships/add'
+  defaults:
+    _entity_form: 'membership.add'
+    _title: 'Add Membership'
+  requirements:
+    _permission: 'administer memberships'
+
+entity.membership.canonical:
+  path: '/admin/people/memberships/{membership}'
+  defaults:
+    _entity_view: 'membership.full'
+    _title: 'Membership'
+  requirements:
+    _permission: 'administer memberships'
+
+entity.membership.edit_form:
+  path: '/admin/people/memberships/{membership}/edit'
+  defaults:
+    _entity_form: 'membership.edit'
+    _title: 'Edit Membership'
+  requirements:
+    _permission: 'administer memberships'
+
+entity.membership.delete_form:
+  path: '/admin/people/memberships/{membership}/delete'
+  defaults:
+    _entity_form: 'membership.delete'
+    _title: 'Delete Membership'
+  requirements:
+    _permission: 'administer memberships'

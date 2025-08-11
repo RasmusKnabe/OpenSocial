@@ -1,0 +1,8 @@
+administer member ids:
+  title: 'Administer member IDs'
+  description: 'Create, edit, and delete member IDs'
+  restrict access: true
+
+view member ids:
+  title: 'View member IDs'
+  description: 'View member ID information'

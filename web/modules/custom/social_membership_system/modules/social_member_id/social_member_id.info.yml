@@ -1,0 +1,9 @@
+name: 'Social Member ID'
+description: 'Manages unique member IDs for users'
+type: module
+core_version_requirement: ^8 || ^9 || ^10
+package: Custom
+dependencies:
+  - user
+  - datetime
+  - social_membership_system

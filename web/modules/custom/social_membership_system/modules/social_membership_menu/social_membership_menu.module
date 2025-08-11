@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Social Membership Menu module - Adds membership link to dropdown.
+ */
+
+use Drupal\Core\Link;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+
+/**
+ * Implements hook_social_user_account_header_account_links().
+ */
+function social_membership_menu_social_user_account_header_account_links(array $context) {
+  // We require a user for this link.
+  if (empty($context['user']) || !($context['user'] instanceof AccountInterface)) {
+    return [];
+  }
+
+  $link = Link::createFromRoute(
+    (new TranslatableMarkup('My Membership')),
+    'social_membership_system.user_overview'
+  );
+
+  return [
+    'my_membership' => [
+      '#type' => 'link',
+      '#attributes' => [
+        'title' => new TranslatableMarkup('View your membership information'),
+      ],
+      '#weight' => 350,
+    ] + $link->toRenderable(),
+  ];
+}

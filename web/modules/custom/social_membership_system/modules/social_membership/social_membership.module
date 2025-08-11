@@ -1,0 +1,226 @@
+<?php
+
+/**
+ * @file
+ * Social Membership module - Handles membership periods and role management.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\social_membership\Entity\Membership;
+use Drupal\social_member_id\Entity\MemberID;
+
+/**
+ * Implements hook_entity_insert().
+ */
+function social_membership_entity_insert(EntityInterface $entity) {
+  if ($entity->getEntityTypeId() === 'membership') {
+    /** @var \Drupal\social_membership\Entity\Membership $membership */
+    $membership = $entity;
+    
+    // If this is an active membership, grant verified role
+    if ($membership->isActive()) {
+      _social_membership_grant_verified_role($membership);
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function social_membership_entity_update(EntityInterface $entity) {
+  if ($entity->getEntityTypeId() === 'membership') {
+    /** @var \Drupal\social_membership\Entity\Membership $membership */
+    $membership = $entity;
+    
+    // Check if membership status changed
+    $original = $entity->original ?? NULL;
+    if ($original) {
+      $was_active = $original->isActive();
+      $is_active = $membership->isActive();
+      
+      // If became active, grant role
+      if (!$was_active && $is_active) {
+        _social_membership_grant_verified_role($membership);
+      }
+      // If became inactive, check if user still has other active memberships
+      elseif ($was_active && !$is_active) {
+        _social_membership_check_and_revoke_verified_role($membership);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_delete().
+ */
+function social_membership_entity_delete(EntityInterface $entity) {
+  if ($entity->getEntityTypeId() === 'membership') {
+    /** @var \Drupal\social_membership\Entity\Membership $membership */
+    $membership = $entity;
+    
+    // When deleting a membership, check if user still has active memberships
+    _social_membership_check_and_revoke_verified_role($membership);
+  }
+}
+
+/**
+ * Implements hook_cron().
+ */
+function social_membership_cron() {
+  // Run membership role cleanup
+  _social_membership_cleanup_expired_roles();
+}
+
+/**
+ * Implements hook_cron_queue_info().
+ */
+function social_membership_cron_queue_info() {
+  $queues['social_membership_role_cleanup'] = [
+    'worker callback' => '_social_membership_cleanup_expired_roles',
+    'time' => 60,
+  ];
+  return $queues;
+}
+
+/**
+ * Grant verified role to user based on membership.
+ */
+function _social_membership_grant_verified_role(Membership $membership) {
+  $member_id_entity = $membership->getMemberIDEntity();
+  if (!$member_id_entity) {
+    return;
+  }
+  
+  $user = $member_id_entity->getUser();
+  if (!$user || !$user->isActive()) {
+    return;
+  }
+  
+  // Grant verified role if not already assigned
+  if (!$user->hasRole('verified')) {
+    $user->addRole('verified');
+    $user->save();
+    
+    \Drupal::logger('social_membership')->info('Granted verified role to user @uid due to active membership', [
+      '@uid' => $user->id()
+    ]);
+    
+    // Show message to user if they're the current user
+    if (\Drupal::currentUser()->id() == $user->id()) {
+      \Drupal::messenger()->addStatus(t('You now have access to community features.'));
+    }
+  }
+}
+
+/**
+ * Check if user still has active memberships, revoke verified role if not.
+ */
+function _social_membership_check_and_revoke_verified_role(Membership $membership) {
+  $member_id_entity = $membership->getMemberIDEntity();
+  if (!$member_id_entity) {
+    return;
+  }
+  
+  $user = $member_id_entity->getUser();
+  if (!$user) {
+    return;
+  }
+  
+  // Check if user has any other active memberships
+  $has_active_membership = _social_membership_user_has_active_membership($user->id());
+  
+  // If no active memberships and user has verified role, remove it
+  if (!$has_active_membership && $user->hasRole('verified')) {
+    $user->removeRole('verified');
+    $user->save();
+    
+    \Drupal::logger('social_membership')->info('Removed verified role from user @uid - no active memberships', [
+      '@uid' => $user->id()
+    ]);
+    
+    // Show message to user if they're the current user
+    if (\Drupal::currentUser()->id() == $user->id()) {
+      \Drupal::messenger()->addWarning(t('Your access to community features has been revoked due to expired membership.'));
+    }
+  }
+}
+
+/**
+ * Check if a user has any active memberships.
+ */
+function _social_membership_user_has_active_membership($user_id) {
+  // Get user's Member ID
+  $member_id_storage = \Drupal::entityTypeManager()->getStorage('member_id');
+  $query = $member_id_storage->getQuery()
+    ->condition('user_id', $user_id)
+    ->accessCheck(FALSE);
+  $member_id_ids = $query->execute();
+  
+  if (empty($member_id_ids)) {
+    return FALSE;
+  }
+  
+  // Check all memberships for this Member ID
+  foreach ($member_id_ids as $member_id_id) {
+    $membership_storage = \Drupal::entityTypeManager()->getStorage('membership');
+    $query = $membership_storage->getQuery()
+      ->condition('member_id_ref', $member_id_id)
+      ->accessCheck(FALSE);
+    $membership_ids = $query->execute();
+    
+    if (!empty($membership_ids)) {
+      $memberships = $membership_storage->loadMultiple($membership_ids);
+      foreach ($memberships as $membership) {
+        if ($membership->isActive()) {
+          return TRUE;
+        }
+      }
+    }
+  }
+  
+  return FALSE;
+}
+
+/**
+ * Cron cleanup function to remove verified role from users with expired memberships.
+ */
+function _social_membership_cleanup_expired_roles() {
+  // Get all users with verified role
+  $user_storage = \Drupal::entityTypeManager()->getStorage('user');
+  $query = $user_storage->getQuery()
+    ->condition('roles', 'verified')
+    ->condition('status', 1)
+    ->accessCheck(FALSE);
+  $user_ids = $query->execute();
+  
+  $cleanup_count = 0;
+  
+  foreach ($user_ids as $user_id) {
+    // Skip admin user
+    if ($user_id == 1) {
+      continue;
+    }
+    
+    // Check if user still has active membership
+    $has_active = _social_membership_user_has_active_membership($user_id);
+    
+    if (!$has_active) {
+      $user = $user_storage->load($user_id);
+      if ($user && $user->hasRole('verified')) {
+        $user->removeRole('verified');
+        $user->save();
+        $cleanup_count++;
+        
+        \Drupal::logger('social_membership')->info('Cron removed verified role from user @uid - no active memberships', [
+          '@uid' => $user_id
+        ]);
+      }
+    }
+  }
+  
+  if ($cleanup_count > 0) {
+    \Drupal::logger('social_membership')->info('Cron cleanup: Removed verified role from @count users', [
+      '@count' => $cleanup_count
+    ]);
+  }
+}

@@ -1,0 +1,13 @@
+social_member_id.admin:
+  title: 'Member IDs'
+  description: 'Manage member IDs'
+  parent: system.admin_structure
+  route_name: entity.member_id.collection
+  weight: 10
+
+social_member_id.admin_add:
+  title: 'Add Member ID'
+  description: 'Add a new member ID'
+  parent: social_member_id.admin
+  route_name: entity.member_id.add_form
+  weight: 0

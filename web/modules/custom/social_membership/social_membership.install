@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for Social Membership Control module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function social_membership_install() {
+  // Disable automatic verified role assignment from social_user.
+  $config = \Drupal::configFactory()->getEditable('social_user.settings');
+  $config->set('verified_immediately', FALSE);
+  $config->save();
+  
+  \Drupal::messenger()->addStatus(t('Social Membership Control installed. Automatic verified role assignment has been disabled.'));
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function social_membership_uninstall() {
+  // Restore original OpenSocial behavior if module is uninstalled.
+  $config = \Drupal::configFactory()->getEditable('social_user.settings');
+  $config->set('verified_immediately', TRUE);
+  $config->save();
+  
+  \Drupal::messenger()->addWarning(t('Social Membership Control uninstalled. Automatic verified role assignment has been restored.'));
+}

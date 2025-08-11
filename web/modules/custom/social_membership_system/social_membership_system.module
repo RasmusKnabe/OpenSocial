@@ -1,0 +1,34 @@
+<?php
+
+/**
+ * @file
+ * Social Membership System module hooks and functions.
+ */
+
+/**
+ * Implements hook_social_user_account_header_account_links().
+ */
+function social_membership_system_social_user_account_header_account_links(array $context) {
+  // Debug: Log that this hook is being called
+  \Drupal::logger('social_membership_system')->info('Hook social_user_account_header_account_links called');
+  
+  // We require a logged in user for this link.
+  if (empty($context['user']) || !$context['user']->isAuthenticated()) {
+    \Drupal::logger('social_membership_system')->info('No authenticated user in context');
+    return [];
+  }
+
+  \Drupal::logger('social_membership_system')->info('Adding membership link for user @uid', ['@uid' => $context['user']->id()]);
+
+  $link = \Drupal\Core\Link::createFromRoute(t('My Membership'), 'social_membership_system.user_overview');
+
+  return [
+    'membership' => [
+      '#type' => 'link',
+      '#weight' => 350,
+      '#attributes' => [
+        'title' => t('View your membership information'),
+      ],
+    ] + $link->toRenderable(),
+  ];
+}

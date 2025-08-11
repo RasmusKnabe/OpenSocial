@@ -1,0 +1,6 @@
+social_membership_system.user_membership:
+  title: 'My Membership'
+  description: 'View your membership information'
+  menu_name: account
+  route_name: social_membership_system.user_overview
+  weight: -5
