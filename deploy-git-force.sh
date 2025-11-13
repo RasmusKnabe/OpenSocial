@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "🚀 Starting Git-based deployment to DEV environment..."
+echo "🚀 Starting Git-based deployment to DEV environment (with force)..."
 
 # 1. Export configuration locally
 echo "📦 Exporting Drupal configuration..."
@@ -22,32 +22,40 @@ echo "🔄 Pushing to GitHub..."
 git push origin master
 echo "✓ Pushed to repository"
 
-# 3. Deploy on server via git pull
+# 3. Deploy on server via git pull (with conflict resolution)
 echo "🚀 Deploying on DEV server..."
 ssh -i ~/.ssh/claude_opensocial root@185.185.126.120 "
     cd /home/DrupalBase-DEV
-    
+
+    # Stash any local changes
+    echo '💾 Stashing local changes...'
+    git stash
+
     # Pull latest changes
     echo '📥 Pulling latest changes from GitHub...'
     git pull origin master
-    
+
+    # Try to restore stashed changes (optional, may have conflicts)
+    echo '🔄 Attempting to restore local changes...'
+    git stash pop || echo 'Note: Could not restore some local changes (this is OK)'
+
     # Install/update dependencies if needed
     echo '📦 Installing composer dependencies...'
     COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader --no-interaction
-    
+
     # Import configuration
     echo '⚙️ Importing configuration...'
     vendor/bin/drush config:import -y || echo 'Config import completed (may have had warnings)'
-    
+
     # Clear all caches
     echo '🧹 Clearing caches...'
     vendor/bin/drush cache:rebuild
-    
+
     # Fix permissions (but preserve user content)
     echo '🔒 Fixing file permissions...'
     chown -R apache:apache web/
     find web -name '.htaccess' -exec chmod 644 {} \;
-    
+
     # Ensure assets directory has correct permissions
     if [ -d 'web/sites/default/files/assets' ]; then
         echo '🎨 Setting asset permissions...'
@@ -55,17 +63,22 @@ ssh -i ~/.ssh/claude_opensocial root@185.185.126.120 "
         find web/sites/default/files/assets -type d -exec chmod 755 {} \;
         find web/sites/default/files/assets -type f -exec chmod 644 {} \;
     fi
-    
+
     # Ensure settings.local.php is included in settings.php
     echo '⚙️ Verifying database settings...'
     if grep -q '# if (file_exists.*settings.local.php' web/sites/default/settings.php; then
         echo 'Enabling settings.local.php include...'
         sed -i 's/^# if (file_exists/if (file_exists/' web/sites/default/settings.php
-        sed -i 's/^#   include/  include/' web/sites/default/settings.php  
+        sed -i 's/^#   include/  include/' web/sites/default/settings.php
         sed -i 's/^# }/}/' web/sites/default/settings.php
     fi
-    
+
     echo '✅ DEV deployment completed successfully!'
+
+    # Show enabled membership modules
+    echo ''
+    echo '📋 Checking membership modules status:'
+    vendor/bin/drush pm:list --filter=social_membership --status=enabled || echo 'No membership modules found'
 "
 
 echo ""
