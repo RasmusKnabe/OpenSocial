@@ -6,6 +6,286 @@
  */
 
 /**
+ * Implements hook_theme().
+ */
+function social_membership_system_theme() {
+  return [
+    'membership_overview_page' => [
+      'variables' => [
+        'member_id_section' => NULL,
+        'memberships_section' => NULL,
+        'renewal_section' => NULL,
+      ],
+      'template' => 'membership-overview-page',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function social_membership_system_page_attachments(array &$attachments) {
+  // Add custom CSS for membership page layout
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if ($route_name === 'social_membership_system.user_overview') {
+    $attachments['#attached']['html_head'][] = [
+      [
+        '#tag' => 'style',
+        '#value' => '
+          .membership-page-layout {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 30px;
+            max-width: 100%;
+            align-items: flex-start;
+          }
+          
+          .membership-page-layout .region--complementary {
+            flex: 0 1 300px;
+            min-width: 250px;
+            max-width: 300px;
+            order: 1;
+          }
+          
+          .membership-page-layout .region--content {
+            flex: 1 !important;
+            min-width: 0 !important;
+            max-width: none !important;
+            order: 2;
+          }
+          
+          @media (max-width: 900px) {
+            .membership-page-layout {
+              flex-direction: column !important;
+              gap: 20px;
+            }
+            
+            .membership-page-layout .region--complementary {
+              flex: none !important;
+              width: 100% !important;
+              max-width: none !important;
+              min-width: auto !important;
+              flex-basis: auto !important;
+              order: initial;
+              padding-left: 1em !important;
+              padding-right: 1em !important;
+            }
+            
+            .membership-page-layout .region--content {
+              flex: none !important;
+              width: 100% !important;
+              order: initial;
+            }
+          }
+          
+          .member-id-display { 
+            font-size: 1.2em; 
+            margin-bottom: 10px; 
+          }
+          .member-since { 
+            color: #666; 
+            margin-bottom: 15px; 
+          }
+          .renewal-info { 
+            margin-bottom: 15px; 
+          }
+          .renewal-info p { 
+            margin-bottom: 8px; 
+            font-size: 0.9rem; 
+          }
+          .btn-renewal { 
+            margin-top: 15px; 
+            padding: 10px 20px; 
+            text-decoration: none; 
+            border-radius: 4px; 
+            display: inline-block; 
+          }
+          .membership-status {
+            margin-top: 10px;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+          }
+          .membership-status.active {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+          }
+          .membership-status.inactive {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+          }
+        ',
+      ],
+      'membership-page-layout'
+    ];
+  }
+}
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function social_membership_system_preprocess_page(&$variables) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  
+  // For the membership overview page, move our content to complementary_top
+  if ($route_name === 'social_membership_system.user_overview') {
+    // Get user ID to fetch real membership data
+    $user_id = \Drupal::currentUser()->id();
+    
+    if ($user_id > 0) {
+      // Get the user's Member ID
+      $member_id_storage = \Drupal::entityTypeManager()->getStorage('member_id');
+      $query = $member_id_storage->getQuery()
+        ->condition('user_id', $user_id)
+        ->accessCheck(TRUE);
+      $member_id_ids = $query->execute();
+
+      if (empty($member_id_ids)) {
+        // No Member ID case
+        $variables['page']['complementary_top']['member_id'] = [
+          '#type' => 'fieldset',
+          '#title' => t('Your Member ID'),
+          '#attributes' => ['class' => ['member-id-section']],
+          'content' => [
+            '#markup' => '<div class="alert alert-info">' . t('You do not have a Member ID assigned yet.') . '</div>',
+          ]
+        ];
+      } else {
+        // Has Member ID
+        $member_id_id = reset($member_id_ids);
+        $member_id_entity = $member_id_storage->load($member_id_id);
+        
+        // Check membership status
+        $membership_status_text = '';
+        
+        // Get membership data (we need to query again since it was queried later in original code)
+        $membership_storage = \Drupal::entityTypeManager()->getStorage('membership');
+        $query = $membership_storage->getQuery()
+          ->condition('member_id_ref', $member_id_id)
+          ->sort('start_date', 'DESC')
+          ->accessCheck(TRUE);
+        $membership_ids = $query->execute();
+        
+        if (!empty($membership_ids)) {
+          $memberships = $membership_storage->loadMultiple($membership_ids);
+          $active_membership = null;
+          $latest_expired = null;
+          
+          foreach ($memberships as $membership) {
+            if ($membership->isActive()) {
+              $active_membership = $membership;
+              break;
+            } elseif ($membership->isExpired()) {
+              if (!$latest_expired || strtotime($membership->getEndDate()) > strtotime($latest_expired->getEndDate())) {
+                $latest_expired = $membership;
+              }
+            }
+          }
+          
+          if ($active_membership) {
+            $end_date = \Drupal::service('date.formatter')->format(strtotime($active_membership->getEndDate()), 'custom', 'F j, Y');
+            $membership_status_text = '<div class="membership-status active">' . t('Dit medlemskab er aktivt og løber ind til @date', ['@date' => $end_date]) . '</div>';
+          } elseif ($latest_expired) {
+            $end_date = \Drupal::service('date.formatter')->format(strtotime($latest_expired->getEndDate()), 'custom', 'F j, Y');
+            $membership_status_text = '<div class="membership-status inactive">' . t('Dit medlemskab er inaktivt og udløb d. @date', ['@date' => $end_date]) . '</div>';
+          }
+        } else {
+          // No memberships found - show message
+          $membership_status_text = '<div class="membership-status inactive">' . t('Du har ikke nogen medlemskabsperioder endnu') . '</div>';
+        }
+
+        $variables['page']['complementary_top']['member_id'] = [
+          '#type' => 'fieldset',
+          '#title' => t('Your Member ID'),
+          '#attributes' => ['class' => ['member-id-section']],
+          'member_id' => [
+            '#markup' => '<div class="member-id-display"><strong>' . t('Member ID: @id', ['@id' => $member_id_entity->getMemberID()]) . '</strong></div>',
+          ],
+          'created' => [
+            '#markup' => '<div class="member-since">' . t('Member since: @date', [
+              '@date' => \Drupal::service('date.formatter')->format($member_id_entity->getCreatedTime(), 'custom', 'F j, Y')
+            ]) . '</div>',
+          ],
+          'status' => [
+            '#markup' => $membership_status_text,
+          ],
+        ];
+
+        // Check for renewal eligibility
+        $membership_storage = \Drupal::entityTypeManager()->getStorage('membership');
+        $query = $membership_storage->getQuery()
+          ->condition('member_id_ref', $member_id_id)
+          ->sort('start_date', 'DESC')
+          ->accessCheck(TRUE);
+        $membership_ids = $query->execute();
+
+        if (!empty($membership_ids)) {
+          $memberships = $membership_storage->loadMultiple($membership_ids);
+          $active_memberships = array_filter($memberships, function($membership) {
+            return $membership->isActive();
+          });
+
+          if (empty($active_memberships)) {
+            // Check if user has expired memberships for renewal eligibility
+            $expired_memberships = array_filter($memberships, function($membership) {
+              return $membership->isExpired();
+            });
+            
+            if (!empty($expired_memberships)) {
+              // Show renewal section
+              $variables['page']['complementary_top']['renewal'] = [
+                '#type' => 'fieldset',
+                '#title' => t('Renew Membership'),
+                '#attributes' => ['class' => ['renewal-section']],
+                'info' => [
+                  '#markup' => '<div class="renewal-info">' .
+                              '<p><strong>' . t('Period:') . '</strong><br>' .
+                              t('@start_date - December 31, @year', [
+                                '@start_date' => date('F j, Y'),
+                                '@year' => date('Y')
+                              ]) . '</p>' .
+                              '<p><strong>' . t('Duration:') . '</strong><br>' .
+                              t('@days days', ['@days' => round((strtotime(date('Y') . '-12-31') - time()) / (60 * 60 * 24)) + 1]) . '</p>' .
+                              '<p><strong>' . t('Price:') . '</strong><br>' .
+                              t('550 DKK') . '</p>' .
+                              '</div>',
+                ],
+                'button' => [
+                  '#type' => 'link',
+                  '#title' => t('Renew Membership'),
+                  '#url' => \Drupal\Core\Url::fromRoute('social_membership_system.user_renewal'),
+                  '#attributes' => [
+                    'class' => ['btn', 'btn-primary', 'btn-renewal'],
+                    'role' => 'button',
+                    'onclick' => 'return confirm("' . t('Are you sure you want to renew your membership for @year?', ['@year' => date('Y')]) . '")',
+                  ],
+                ],
+              ];
+            }
+          }
+        }
+      }
+    }
+    
+    \Drupal::logger('social_membership_system')->info('Added real membership content to complementary_top');
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_page_alter().
+ */
+function social_membership_system_theme_suggestions_page_alter(array &$suggestions, array $variables) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  
+  // Add custom template suggestion for membership overview page
+  if ($route_name === 'social_membership_system.user_overview') {
+    $suggestions[] = 'page__user_membership';
+  }
+}
+
+/**
  * Implements hook_social_user_account_header_account_links().
  */
 function social_membership_system_social_user_account_header_account_links(array $context) {

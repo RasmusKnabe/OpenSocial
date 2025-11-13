@@ -61,6 +61,11 @@ filters:
     status: false
     weight: -41
     settings: {  }
+  filter_mentions:
+    id: filter_mentions
+    provider: mentions
+    status: true
+    weight: -46
   filter_url:
     id: filter_url
     provider: filter

@@ -1,0 +1,19 @@
+{#
+/**
+ * @file
+ * Template for membership overview page.
+ *
+ * This template is mainly used as a placeholder since content
+ * is moved to appropriate regions via hook_preprocess_page().
+ *
+ * Available variables:
+ * - member_id_section: The Member ID fieldset (moved to sidebar_first)
+ * - memberships_section: The memberships table (stays in main content)
+ * - renewal_section: The renewal button section (moved to sidebar_first)
+ */
+#}
+
+{# This template is processed by hook_preprocess_page() to move content to correct regions #}
+{% if memberships_section %}
+  {{ memberships_section }}
+{% endif %}

@@ -1,0 +1,100 @@
+{#
+/**
+ * @file
+ * Custom page template for membership overview page (/user/membership).
+ *
+ * Template suggestion: page__user_membership
+ * This template extends socialbase page.html.twig with smart complementary region handling.
+ */
+#}
+
+{% if page.header_top and multi_line %}
+  {{ page.header_top }}
+{% endif %}
+
+{% if page.header %}
+  {{ page.header }}
+{% endif %}
+
+<main id="content" class="main-container" role="main">
+
+  {% if page.breadcrumb %}
+    {{ page.breadcrumb }}
+  {% endif %}
+
+  {% if page.hero %}
+    {{ page.hero }}
+  {% endif %}
+
+  {% if page.secondary_navigation %}
+    {{ page.secondary_navigation }}
+  {% endif %}
+
+  {% if page.content_top %}
+    {{ page.content_top }}
+  {% endif %}
+
+  {# Content attributes, see Style guide Templates for documentation #}
+  <!-- *** CUSTOM MEMBERSHIP TEMPLATE ACTIVE *** -->
+  <!-- DEBUG: Custom membership template (page__user_membership) is being used -->
+  <section{{ content_attributes.addClass('membership-page-layout') }}>
+
+    {% if page.title and display_page_title %}
+      {{ page.title }}
+    {% endif %}
+
+    {# Smart complementary region handling - only show if there's actual content #}
+    {% set has_complementary_content = false %}
+    
+    {# Check if complementary_top has actual rendered content #}
+    {% if page.complementary_top %}
+      {% set top_content = page.complementary_top|render|striptags|trim %}
+      {% if top_content %}
+        {% set has_complementary_content = true %}
+      {% endif %}
+    {% endif %}
+    
+    {# Check if complementary_bottom has actual rendered content #}
+    {% if page.complementary_bottom and not has_complementary_content %}
+      {% set bottom_content = page.complementary_bottom|render|striptags|trim %}
+      {% if bottom_content %}
+        {% set has_complementary_content = true %}
+      {% endif %}
+    {% endif %}
+
+    {# Only show complementary region if there's actual content #}
+    {% if has_complementary_content %}
+      <aside class="region--complementary" role="complementary">
+        {% if page.complementary_top %}
+          {{ page.complementary_top }}
+        {% endif %}
+        {% if page.complementary_bottom %}
+          {{ page.complementary_bottom }}
+        {% endif %}
+      </aside>
+    {% endif %}
+
+    <a id="main-content" tabindex="-1"></a>
+    {{ page.content }}
+
+    {# Show sidebar_first regardless of complementary content #}
+    {% if page.sidebar_first %}
+      {{ page.sidebar_first }}
+    {% endif %}
+
+    {# Show sidebar_second regardless of complementary content #}
+    {% if page.sidebar_second %}
+      {{ page.sidebar_second }}
+    {% endif %}
+
+  </section>
+
+  {% if page.content_bottom %}
+    {{ page.content_bottom }}
+  {% endif %}
+
+</main>
+
+{% if page.footer %}
+  {{ page.footer }}
+{% endif %}

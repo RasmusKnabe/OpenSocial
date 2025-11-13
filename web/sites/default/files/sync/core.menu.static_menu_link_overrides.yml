@@ -1,4 +1,10 @@
 _core:
   default_config_hash: jdY7AU0tU-QsjmiOw3W8vwpYMb-By--_MSFgbqKUTYM
 langcode: da
-definitions: {  }
+definitions:
+  social_membership_system__user_membership:
+    menu_name: account
+    parent: ''
+    weight: -5
+    expanded: true
+    enabled: true

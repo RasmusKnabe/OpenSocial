@@ -58,8 +58,9 @@ class UserMembershipController extends ControllerBase {
    *   A render array.
    */
   public function overview() {
-    $build = [];
     $user_id = $this->currentUser->id();
+    
+    \Drupal::logger('social_membership_system')->info('Controller overview() called for user @uid', ['@uid' => $user_id]);
 
     // Get the user's Member ID
     $member_id_storage = $this->entityTypeManager->getStorage('member_id');
@@ -69,28 +70,76 @@ class UserMembershipController extends ControllerBase {
     $member_id_ids = $query->execute();
 
     if (empty($member_id_ids)) {
-      $build['no_member_id'] = [
+      // Build Member ID section for sidebar - no ID case
+      $member_id_section = [
+        '#type' => 'fieldset',
+        '#title' => $this->t('Your Member ID'),
+        '#attributes' => ['class' => ['member-id-section']],
+      ];
+      
+      $member_id_section['no_id'] = [
         '#markup' => '<div class="alert alert-info">' . $this->t('You do not have a Member ID assigned yet.') . '</div>',
       ];
-      return $build;
+      
+      // Build Memberships section for main content - no memberships
+      $memberships_section = [
+        '#type' => 'fieldset',
+        '#title' => $this->t('Your Memberships'),
+        '#attributes' => ['class' => ['memberships-section']],
+      ];
+      
+      $memberships_section['no_memberships'] = [
+        '#markup' => '<div class="alert alert-warning">' . $this->t('You do not have any membership periods registered.') . '</div>',
+      ];
+
+      // Use custom template even when no Member ID
+      return [
+        '#theme' => 'membership_overview_page',
+        '#member_id_section' => $member_id_section,
+        '#memberships_section' => $memberships_section,
+        '#renewal_section' => NULL,
+        '#attached' => [
+          'html_head' => [[
+            [
+              '#tag' => 'style',
+              '#value' => '
+                .member-id-display { font-size: 1.2em; margin-bottom: 10px; }
+                .member-since { color: #666; margin-bottom: 15px; }
+                .membership-table { width: 100%; }
+                .status-active { color: #28a745; font-weight: bold; }
+                .status-expired { color: #dc3545; }
+                .status-future { color: #17a2b8; }
+                .alert { padding: 15px; margin-bottom: 20px; border-radius: 4px; }
+                .alert-info { background-color: #d1ecf1; border-color: #bee5eb; color: #0c5460; }
+                .alert-success { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+                .alert-warning { background-color: #fff3cd; border-color: #ffeaa7; color: #856404; }
+                .btn-renewal { margin-top: 15px; padding: 10px 20px; text-decoration: none; border-radius: 4px; display: inline-block; }
+                .renewal-info { margin-bottom: 15px; }
+                .renewal-info p { margin-bottom: 8px; font-size: 0.9rem; }
+              ',
+            ],
+            'membership-styles'
+          ]],
+        ],
+      ];
     }
 
     // Load the Member ID entity
     $member_id_id = reset($member_id_ids);
     $member_id_entity = $member_id_storage->load($member_id_id);
 
-    // Member ID section
-    $build['member_id_section'] = [
+    // Build Member ID section for sidebar
+    $member_id_section = [
       '#type' => 'fieldset',
       '#title' => $this->t('Your Member ID'),
       '#attributes' => ['class' => ['member-id-section']],
     ];
 
-    $build['member_id_section']['member_id'] = [
+    $member_id_section['member_id'] = [
       '#markup' => '<div class="member-id-display"><strong>' . $this->t('Member ID: @id', ['@id' => $member_id_entity->getMemberID()]) . '</strong></div>',
     ];
 
-    $build['member_id_section']['created'] = [
+    $member_id_section['created'] = [
       '#markup' => '<div class="member-since">' . $this->t('Member since: @date', [
         '@date' => \Drupal::service('date.formatter')->format($member_id_entity->getCreatedTime(), 'long')
       ]) . '</div>',
@@ -104,23 +153,24 @@ class UserMembershipController extends ControllerBase {
       ->accessCheck(TRUE);
     $membership_ids = $query->execute();
 
-    // Memberships section
-    $build['memberships_section'] = [
+    // Build Memberships section for main content
+    $memberships_section = [
       '#type' => 'fieldset',
       '#title' => $this->t('Your Memberships'),
       '#attributes' => ['class' => ['memberships-section']],
     ];
 
     $has_active_membership = FALSE;
+    $renewal_section = NULL;
     
     if (empty($membership_ids)) {
-      $build['memberships_section']['no_memberships'] = [
+      $memberships_section['no_memberships'] = [
         '#markup' => '<div class="alert alert-warning">' . $this->t('You do not have any membership periods registered.') . '</div>',
       ];
     } else {
       $memberships = $membership_storage->loadMultiple($membership_ids);
       
-      $build['memberships_section']['table'] = [
+      $memberships_section['table'] = [
         '#type' => 'table',
         '#header' => [
           $this->t('Period'),
@@ -149,7 +199,7 @@ class UserMembershipController extends ControllerBase {
         $interval = $start_date->diff($end_date);
         $duration = $interval->days + 1 . ' ' . $this->t('days');
 
-        $build['memberships_section']['table'][$membership->id()] = [
+        $memberships_section['table'][$membership->id()] = [
           'period' => [
             '#markup' => \Drupal::service('date.formatter')->format(strtotime($membership->getStartDate()), 'custom', 'd/m/Y') . 
                         ' - ' . 
@@ -164,63 +214,81 @@ class UserMembershipController extends ControllerBase {
         ];
       }
 
-      // Add current membership status summary
+      // Check for active membership and create renewal section if needed
       $active_memberships = array_filter($memberships, function($membership) {
         return $membership->isActive();
       });
 
       if (!empty($active_memberships)) {
-        $active_membership = reset($active_memberships);
-        $build['current_status'] = [
-          '#markup' => '<div class="alert alert-success">' . 
-                      $this->t('Your membership is currently active until @date', [
-                        '@date' => \Drupal::service('date.formatter')->format(strtotime($active_membership->getEndDate()), 'long')
-                      ]) . '</div>',
-          '#weight' => -10,
-        ];
+        $has_active_membership = TRUE;
       } else {
-        $build['current_status'] = [
-          '#markup' => '<div class="alert alert-warning">' . $this->t('You do not have an active membership.') . '</div>',
-          '#weight' => -10,
-        ];
+        // Check if user has expired memberships for renewal eligibility
+        $expired_memberships = array_filter($memberships, function($membership) {
+          return $membership->isExpired();
+        });
         
-        // Add renewal button for users without active membership
-        $renewal_url = Url::fromRoute('social_membership_system.user_renewal');
-        $build['renewal_button'] = [
-          '#type' => 'link',
-          '#title' => $this->t('Renew Membership'),
-          '#url' => $renewal_url,
-          '#attributes' => [
-            'class' => ['btn', 'btn-primary', 'btn-renewal'],
-            'role' => 'button',
-          ],
-          '#weight' => -5,
-        ];
+        if (!empty($expired_memberships)) {
+          // Build renewal section for sidebar
+          $renewal_section = [
+            '#type' => 'fieldset',
+            '#title' => $this->t('Renew Membership'),
+            '#attributes' => ['class' => ['renewal-section']],
+          ];
+          
+          $renewal_section['info'] = [
+            '#markup' => '<div class="renewal-info">' .
+                        '<p><strong>' . $this->t('Period:') . '</strong><br>' .
+                        $this->t('January 1 - December 31, @year', ['@year' => date('Y')]) . '</p>' .
+                        '<p><strong>' . $this->t('Duration:') . '</strong><br>' .
+                        $this->t('Full year membership') . '</p>' .
+                        '</div>',
+          ];
+          
+          $renewal_url = Url::fromRoute('social_membership_system.user_renewal');
+          $renewal_section['button'] = [
+            '#type' => 'link',
+            '#title' => $this->t('Renew Membership'),
+            '#url' => $renewal_url,
+            '#attributes' => [
+              'class' => ['btn', 'btn-primary', 'btn-renewal'],
+              'role' => 'button',
+              'onclick' => 'return confirm("' . $this->t('Are you sure you want to renew your membership for @year?', ['@year' => date('Y')]) . '")',
+            ],
+          ];
+        }
       }
     }
 
-    // Add some basic styling
-    $build['#attached']['html_head'][] = [
-      [
-        '#tag' => 'style',
-        '#value' => '
-          .member-id-display { font-size: 1.2em; margin-bottom: 10px; }
-          .member-since { color: #666; margin-bottom: 15px; }
-          .membership-table { width: 100%; }
-          .status-active { color: #28a745; font-weight: bold; }
-          .status-expired { color: #dc3545; }
-          .status-future { color: #17a2b8; }
-          .alert { padding: 15px; margin-bottom: 20px; border-radius: 4px; }
-          .alert-info { background-color: #d1ecf1; border-color: #bee5eb; color: #0c5460; }
-          .alert-success { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
-          .alert-warning { background-color: #fff3cd; border-color: #ffeaa7; color: #856404; }
-          .btn-renewal { margin-top: 15px; padding: 10px 20px; text-decoration: none; border-radius: 4px; display: inline-block; }
-        ',
+    // Use custom template
+    return [
+      '#theme' => 'membership_overview_page',
+      '#member_id_section' => $member_id_section,
+      '#memberships_section' => $memberships_section,
+      '#renewal_section' => $renewal_section,
+      '#attached' => [
+        'html_head' => [[
+          [
+            '#tag' => 'style',
+            '#value' => '
+              .member-id-display { font-size: 1.2em; margin-bottom: 10px; }
+              .member-since { color: #666; margin-bottom: 15px; }
+              .membership-table { width: 100%; }
+              .status-active { color: #28a745; font-weight: bold; }
+              .status-expired { color: #dc3545; }
+              .status-future { color: #17a2b8; }
+              .alert { padding: 15px; margin-bottom: 20px; border-radius: 4px; }
+              .alert-info { background-color: #d1ecf1; border-color: #bee5eb; color: #0c5460; }
+              .alert-success { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+              .alert-warning { background-color: #fff3cd; border-color: #ffeaa7; color: #856404; }
+              .btn-renewal { margin-top: 15px; padding: 10px 20px; text-decoration: none; border-radius: 4px; display: inline-block; }
+              .renewal-info { margin-bottom: 15px; }
+              .renewal-info p { margin-bottom: 8px; font-size: 0.9rem; }
+            ',
+          ],
+          'membership-styles'
+        ]],
       ],
-      'membership-styles'
     ];
-
-    return $build;
   }
 
   /**
