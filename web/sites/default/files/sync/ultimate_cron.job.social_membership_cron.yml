@@ -1,0 +1,17 @@
+uuid: 543cce86-b4f8-4939-8b79-d1c5e959076d
+langcode: da
+status: true
+dependencies:
+  module:
+    - social_membership
+title: 'Default cron handler'
+id: social_membership_cron
+weight: 0
+module: social_membership
+callback: social_membership_cron
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database
